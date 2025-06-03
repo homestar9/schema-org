@@ -1,156 +1,184 @@
 <cfscript>
 /*
 ========================================================================
-  BUILD-TIME CODEGEN: Schema.org → CFML CFCs 
+  BUILD-TIME CODEGEN: Schema.org → CFML CFCs (with inheritance)
 
   - Reads schemaorg-all-https.jsonld
-  - Finds rdfs:Class → typeName
+  - Finds rdfs:Class → typeName + immediate parent via rdfs:subClassOf
   - Finds rdf:Property → propName + schema:domainIncludes + rdfs:comment
   - For each typeName with ≥1 prop, writes schemaTypes/typeName.cfc:
-      • property name="propName" hint="(description)"
+      • “extends” correct parent (if that parent is in typesMap),
+        otherwise extends BaseType
+      • explicit property declarations (no setters)
       • public function init() { super.init(typeName); return this; }
   - NO allowedProps array—BaseType.onMissingMethod() uses getMetaData().
 ========================================================================
 */
 
-inputFile = expandPath( "./schemaorg-all-https.jsonld" );
-outputDir = expandPath( "../types/" );
+inputFile  = expandPath( "./schemaorg-all-https.jsonld" );
+outputDir  = expandPath( "../types/" );
 
 // 1) Read & parse JSON-LD
 jsonText = fileRead( inputFile );
-data = deserializeJson( jsonText );
+data     = deserializeJson( jsonText );
 
 // 2) Build lookups
-typesMap       = {}; // typesMap[typeName] = { id = "schema:Organization", label = "Organization" }
-propertyDomain = {}; // propertyDomain[typeName] = array of propNames
+typesMap       = {}; // typesMap[typeName] = { id, label, parent }
+propertyDomain = {}; // propertyDomain[typeName] = [ propName, ... ]
 propDetails    = {}; // propDetails[propName] = { id, description, rangeIncludes }
 
-row = 0;
-
+// Pass 1: Collect each rdfs:Class and its immediate rdfs:subClassOf parent (if any)
 for ( node in data["@graph"] ) {
-    
-    // 2a) rdfs:Class → typesMap
-    // The node type could be an array of values or a simple string
-    if ( 
-        structKeyExists( node, "@type" ) &&
+    // 2a) Identify rdfs:Class nodes
+    if (
+        structKeyExists(node, "@type")
+        and
         (
-            (
-                isArray( node["@type"] ) && 
-                node[ "@type" ].findNoCase( "rdfs:Class" )
-            ) || 
-            (
-                isSimpleValue( node["@type"] ) && 
-                node[ "@type" ] == "rdfs:Class"
-            )
+            ( isArray(node["@type"]) and node["@type"].findNoCase("rdfs:Class") )
+            or
+            ( not isArray(node["@type"]) and node["@type"] eq "rdfs:Class" )
         )
     ) {
-        rawId    = node["@id"];
-        typeName = listLast( rawId, ":" );
-        typesMap[ typeName ] = {
-            id    = rawId,
-            label = node[ "rdfs:label" ] ?: typeName
+        rawId    = node["@id"];              // e.g. "schema:Organization"
+        typeName = listLast(rawId, ":");     // e.g. "Organization"
+        label    = node["rdfs:label"] ?: typeName;
+
+        // Look for an immediate parent via rdfs:subClassOf
+        parentName = ""; 
+        if ( structKeyExists(node, "rdfs:subClassOf") ) {
+            if ( isArray(node["rdfs:subClassOf"]) ) {
+                // Take first parent if multiple
+                parentRaw = node["rdfs:subClassOf"][1]["@id"];
+            } else {
+                parentRaw = node["rdfs:subClassOf"]["@id"];
+            }
+            parentName = listLast(parentRaw, ":");
+        }
+
+        typesMap[typeName] = {
+            id     = rawId,
+            label  = label,
+            parent = parentName  // blank if no subClassOf
         };
+
         continue;
     }
 
-    // 2b) rdf:Property → propName & domainIncludes
-    if ( 
-        structKeyExists( node, "@type" ) &&
+    // 2b) Identify rdf:Property nodes
+    if (
+        structKeyExists(node, "@type")
+        and
         (
-            (
-                isArray( node["@type"] ) && 
-                node[ "@type" ].findNoCase( "rdf:Property" )
-            ) || 
-            (
-                isSimpleValue( node["@type"] ) && 
-                node[ "@type" ] == "rdf:Property"
-            )
+            ( isArray(node["@type"]) and node["@type"].findNoCase("rdf:Property") )
+            or
+            ( not isArray(node["@type"]) and node["@type"] eq "rdf:Property" )
         )
     ) {
-        rawPropId = node["@id"];
-        propName  = listLast( rawPropId, ":" );
-        desc      = node[ "rdfs:comment" ] ?: "";
+        rawPropId = node["@id"];              // e.g. "schema:name"
+        propName  = listLast(rawPropId, ":"); // e.g. "name"
+        desc      = node["rdfs:comment"] ?: "";
 
-        propDetails[ propName ] = {
-            id = rawPropId,
-            description = desc
+        // Only grab rangeIncludes if it actually exists; otherwise default to []
+        rangeInc = [];
+        if ( structKeyExists( node, "schema:rangeIncludes") ) {
+            rangeInc = isArray( node["schema:rangeIncludes"] )
+                ? node["schema:rangeIncludes"]
+                : [ node["schema:rangeIncludes"] ];
+        }
+
+        propDetails[propName] = {
+            id          = rawPropId,
+            description = desc,
+            rangeIncludes = rangeInc // if needed later
         };
 
-        // domainIncludes can be a struct or an array of structs
+        // Collect domainIncludes→which types this property belongs to
         domains = [];
-        if ( structKeyExists( node, "schema:domainIncludes" ) ) {
-            if ( isArray( node[ "schema:domainIncludes" ] ) ) {
-                for ( d in node[ "schema:domainIncludes" ] ) {
-                    arrayAppend( domains, listLast( d["@id"], ":" ) );
+        if ( structKeyExists(node, "schema:domainIncludes") ) {
+            if ( isArray(node["schema:domainIncludes"]) ) {
+                for ( d in node["schema:domainIncludes"] ) {
+                    arrayAppend(domains, listLast(d["@id"], ":"));
                 }
             } else {
-                arrayAppend( domains, listLast( node[ "schema:domainIncludes" ]["@id"], ":" ) );
+                arrayAppend(domains, listLast(node["schema:domainIncludes"]["@id"], ":"));
             }
         }
 
         for ( dom in domains ) {
-            if ( !structKeyExists(propertyDomain, dom) ) {
+            if ( not structKeyExists(propertyDomain, dom) ) {
                 propertyDomain[dom] = [];
             }
-            arrayAppend( propertyDomain[dom], propName );
+            arrayAppend(propertyDomain[dom], propName);
         }
     }
 }
 
-// 3) Generate CFC per type
+// 3) Pass 2: Generate one CFC per type, using the correct extends clause
 for ( typeName in typesMap ) {
     validProps = propertyDomain[typeName] ?: [];
-    if ( arrayLen( validProps ) EQ 0 ) {
-        continue; // skip types with no props
+
+    // Determine the correct "extends" target
+    parentName = typesMap[typeName].parent;
+    if ( len(parentName) and structKeyExists(typesMap, parentName) ) {
+        // Parent is another generated type:
+        extendsLine = 'extends="schema-org.types.' & parentName & '"';
+    } else {
+        // No valid parent → extend BaseType
+        extendsLine = 'extends="schema-org.models.BaseType"';
     }
 
     arraySort(validProps, "textnocase");
 
     cfcPath = outputDir & typeName & ".cfc";
-    fh = fileOpen(cfcPath, "write");
+    fh      = fileOpen(cfcPath, "write");
 
-    // Header
-    fileWriteLine( fh, '// --------------------------------------------------------' );
-    fileWriteLine( fh, '// AUTO-GENERATED: #typeName#.cfc' );
-    fileWriteLine( fh, '// Do not hand-edit; re-run generator to update.' );
-    fileWriteLine( fh, '// --------------------------------------------------------' );
+    // --- Header ---
+    fileWriteLine(fh, '// --------------------------------------------------------');
+    fileWriteLine(fh, '// AUTO-GENERATED: ' & typeName & '.cfc');
+    fileWriteLine(fh, '// Do not hand-edit; re-run generator to update.');
+    fileWriteLine(fh, '// --------------------------------------------------------');
+    fileWriteLine(fh, '');
 
-    // Component declaration
-    fileWriteLine( fh, 'component extends="schema-org.models.BaseType" accessors="true" output="false" {' );
-    fileWriteLine( fh, '' );
+    // --- Component declaration with proper extends ---
+    fileWriteLine(fh, 'component ' & extendsLine & ' accessors="true" {');
+    fileWriteLine(fh, '');
 
-    // Explicit property declarations
+    // --- Explicit property declarations ---
     for ( propName in validProps ) {
-        hintText = propDetails[ propName ].description ?: "";
+        hintText = propDetails[propName].description ?: "";
 
-        // if the hint text is a struct, convert to string
-        if ( isStruct( hintText ) ) {
+        if ( isStruct(hintText) ) {
+            // Convert struct to string if needed
             hintText = hintText.toString();
         }
+        // Escape any '##' for CFML interpolation
+        hintText = replace(hintText, '##', '####', "all");
+        // Escape double quotes
+        hintText = replace(hintText, '"', "'", "all");
 
-        // escape pound signs in hint
-        hintText = replace( hintText, '##', '####', "all" );
-
-        // Escape double quotes in hint
-        hintText = replace( hintText, '"', "'", "all");
-
-        fileWriteLine( fh, 
-            '    property name="#propName#" hint="#hintText#";' 
+        fileWriteLine(
+            fh,
+            '    /** schema.org/' & propName & 
+            ( len(hintText) ? ' – ' & hintText : '' ) & ' */'
         );
-        fileWriteLine( fh, "" );
+        fileWriteLine(
+            fh,
+            '    property name="' & propName & '" hint="' & hintText & '";'
+        );
+        fileWriteLine(fh, "");
     }
 
     // set the typeName variable
     fileWriteLine( fh, "" );
-    fileWriteLine( fh, '    variables.typeName = "#typeName#";' );
+    fileWriteLine( fh, '    variables[ "@type" ] = "#typeName#";' );
     fileWriteLine( fh, "" );
 
     // Close component
-    fileWriteLine( fh, "}" );
-    fileClose( fh );
+    fileWriteLine(fh, '}');
+    fileClose(fh);
 
-    writeOutput( 'Generated #typeName#.cfc<br>' );
+    writeOutput('Generated ' & typeName & '.cfc (extends ' & (parentName ?: "BaseType") & ')<br>');
 }
 
-writeOutput( "<hr>Generation complete. Check /types/ for generated CFCs." );
+writeOutput('<hr>Generation complete. Check /types/ for generated CFCs.');
 </cfscript>
