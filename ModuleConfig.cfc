@@ -6,17 +6,17 @@
 component {
 
 	// Module Properties
-	this.title 				= "@MODULE_NAME@";
-	this.author 			= "Ortus Solutions";
-	this.webURL 			= "https://www.ortussolutions.com";
+	this.title 				= "schema-org";
+	this.author 			= "Angry Sam Productions, Inc.";
+	this.webURL 			= "https://www.angrysam.com";
 	this.description 		= "@MODULE_DESCRIPTION@";
 	this.version 			= "@build.version@+@build.number@";
 
 	// Model Namespace
-	this.modelNamespace		= "@MODULE_SLUG@";
+	this.modelNamespace		= "schema-org";
 
 	// CF Mapping
-	this.cfmapping			= "@MODULE_SLUG@";
+	this.cfmapping			= "schema-org";
 
 	// Dependencies
 	this.dependencies 		= [];

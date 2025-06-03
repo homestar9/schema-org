@@ -1,14 +1,14 @@
 {
-	"name" 		: "@MODULE_NAME@",
+	"name" 		: "schema-org",
 	"version"   : "1.0.0",
-    "location"  : "https://downloads.ortussolutions.com/ortussolutions/coldbox-modules/@MODULE_SLUG@/@build.version@/@MODULE_SLUG@-@build.version@.zip",
-	"author" 	: "Ortus Solutions <info@ortussolutions.com>",
-	"homepage"	: "https://github.com/coldbox-modules/@MODULE_SLUG@",
-	"documentation"		: "https://github.com/coldbox-modules/@MODULE_SLUG@",
-	"repository"		: { "type" : "git", "url" : "https://github.com/coldbox-modules/@MODULE_SLUG@" },
-	"bugs" : "https://github.com/coldbox-modules/@MODULE_SLUG@",
-	"shortDescription"	: "Description goes here",
-	"slug"		: "@MODULE_SLUG@",
+    "location"  : ""
+	"author" 	: "",
+	"homepage"	: "",
+	"documentation"		: "",
+	"repository"		: { "type" : "git", "url" : "" },
+	"bugs" : "",
+	"shortDescription"	: "",
+	"slug"		: "schema-org",
 	"type"		: "modules",
 	"keywords":"",
 	"license"			: [
