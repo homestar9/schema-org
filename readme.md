@@ -73,7 +73,7 @@ prc.schema = sb
     .webpage( function( o ) {
         o.id( https://startrek.com/##webpage" ) // must be unique
             .name( "Starfleet Command" )
-            .description( "Official website of the Starfleet Command" )
+            .description( "Official website of Starfleet Command" )
             .url( "https://startrek.com/" )
             // ... rest of schema properties
     } )
