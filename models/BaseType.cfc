@@ -5,6 +5,9 @@ component
 
     property name="@type";
     property name="@id";
+
+
+    variables._mappers = {}; // mappers for reserved keywords
     
     /**
      * Init
@@ -32,8 +35,15 @@ component
      * @value The value to set as the ID of the object.
      */
     function setId( required string value ) {
-        invoke( this, "set@id", arguments );
+        variables["@id"] = value;
         return this;
+    }
+
+    /**
+     * getId (alias for get@id)
+     */
+    function getId() {
+        return variables["@id"];
     }
 
 
@@ -65,9 +75,9 @@ component
      * Handles missing methods by attempting to set an attribute with the same name as the missing method.
      * If the method name starts with "set", it will ignore it and not attempt to set an attribute.
      */
-    function onMissingMethod( required missingMethodName, required missingMethodArgs ) {
+    function onMissingMethod( required missingMethodName, required missingMethodArguments ) {
         
-        var result = tryAttributeSetter( arguments.missingMethodName, arguments.missingMethodArgs );
+        var result = tryAttributeSetter( arguments.missingMethodName, arguments.missingMethodArguments );
 		if ( !isNull( result ) ) {
 			return result;
 		}
@@ -89,15 +99,21 @@ component
 			return;
 		}
 
-        // if the setter method doesn't exist, we can't set it
-        if ( !structKeyExists( this, "set" & arguments.missingMethodName ) ) {
-            return;
-        }
+        // if the setter method exists, set it
+        if ( structKeyExists( this, "set" & arguments.missingMethodName ) ) {
+            // invoke the setter method with the provided arguments
+            invoke( this, "set" & arguments.missingMethodName, arguments.missingMethodArgs );
+            return this;
 
-        // invoke the setter method with the provided arguments
-        invoke( this, "set" & arguments.missingMethodName, arguments.missingMethodArgs );
+        // else check for a set_ prefix (for reserved keywords) that are mapped to a property
+        } else if ( structKeyExists( this, "set_" & arguments.missingMethodName ) ) {
+            // invoke the setter method with the provided arguments
+            invoke( this, "set_" & arguments.missingMethodName, arguments.missingMethodArgs );
+            return this;
+        }
 		
-		return this;
+		return;
+
 	}
 
 
@@ -216,8 +232,25 @@ component
 			}
 		}
 
+        // process mappers (transforming key names -- different than mementifier)
+        if ( !variables._mappers.isEmpty() ) {
+            for ( var key in result ) {
+                // Do we have a mapper according to this key?
+                if ( hasMapper( key ) ) {
+                    // Transform it
+                    result[ variables._mappers[ key ] ] = result[ key ];
+                    result.delete( key );
+                }
+            }
+        }
+		
+
 		// Return memento
 		return result;
 	}
+
+    private boolean function hasMapper( string key ) {
+        return variables._mappers.keyExists( key );
+    }
 
 }

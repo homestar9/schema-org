@@ -7,6 +7,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>Module Tester</title>
 
+            <script type="application/ld+json">
             #runEvent(
                 event = "schemas.index",
                 eventArguments = {
@@ -14,6 +15,7 @@
                     routedUrl = event.getCurrentRoutedUrl()
                 }
             )#
+            </script>
 
             <!-- Bootstrap CSS -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -27,7 +29,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    MAIN_CONTENT_GOES_HERE
+                    <h1>Schema-Org Test Harness</h1>
                     <cfdump var="#rc#" label="Request Collection">
                     <cfdump var="#prc#" label="Private Request Collection">
                     <cfdump var="#event.getCurrentRoutedUrl()#" label="Private Request Collection">

@@ -1,13 +1,13 @@
 {
-	"name" 		: "schema-org",
-	"version"   : "1.0.0",
-    "location"  : ""
-	"author" 	: "",
-	"homepage"	: "",
-	"documentation"		: "",
-	"repository"		: { "type" : "git", "url" : "" },
-	"bugs" : "",
-	"shortDescription"	: "",
+	"name" : "schema-org",
+	"version" : "1.0.0",
+    "location": "ForgeboxStorage",
+    "author": "Angry Sam Productions, Inc.",
+	"homepage" : "https://github.com/homestar9/schema-org",
+	"documentation" : "https://github.com/homestar9/schema-org",
+	"repository"		: { "type" : "git", "url" : "https://github.com/homestar9/schema-org" },
+	"bugs" : "https://github.com/homestar9/schema-org/issues",
+	"shortDescription"	: "A ColdBox module for building structured JSON-LD data using Schema.org conventions",
 	"slug"		: "schema-org",
 	"type"		: "modules",
 	"keywords":"",
@@ -26,7 +26,8 @@
 	"ignore":[
         "**/.*",
         "test-harness",
-		"/server*.json"
+		"/server*.json",
+        "/generator"
     ],
 	"scripts":{
 		"setupTemplate": "task run taskFile=build/SetupTemplate.cfc",

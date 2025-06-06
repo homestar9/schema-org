@@ -18,6 +18,9 @@
 inputFile  = expandPath( "./schemaorg-all-https.jsonld" );
 outputDir  = expandPath( "../types/" );
 
+reservedKeywords = [ "abstract" ];
+mappers = {};
+
 // 1) Read & parse JSON-LD
 jsonText = fileRead( inputFile );
 data     = deserializeJson( jsonText );
@@ -156,11 +159,12 @@ for ( typeName in typesMap ) {
         // Escape double quotes
         hintText = replace(hintText, '"', "'", "all");
 
-        fileWriteLine(
-            fh,
-            '    /** schema.org/' & propName & 
-            ( len(hintText) ? ' – ' & hintText : '' ) & ' */'
-        );
+        // if this property is a reserved keyword, prefix it with an underscore
+        if ( reservedKeywords.findNoCase( propName ) ) {
+            mappers[ "_" & propName ] = propName; // add to mapper so _propname will output as propName
+            propName = "_" & propName; // append underscore to property name
+        }
+
         fileWriteLine(
             fh,
             '    property name="' & propName & '" hint="' & hintText & '";'
@@ -172,6 +176,14 @@ for ( typeName in typesMap ) {
     fileWriteLine( fh, "" );
     fileWriteLine( fh, '    variables[ "@type" ] = "#typeName#";' );
     fileWriteLine( fh, "" );
+
+    // set mappers for reserved keywords
+    if ( !mappers.isEmpty() ) {
+        for( key in mappers ) {
+            fileWriteLine( fh, '    variables._mappers[ "' & key & '" ] = "' & mappers[ key ] & '";' );
+        }
+        fileWriteLine( fh, "" );
+    }
 
     // Close component
     fileWriteLine(fh, '}');

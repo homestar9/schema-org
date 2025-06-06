@@ -83,9 +83,17 @@ component {
                     "https://www.facebook.com/StarfleetOfficial/",
                     "https://www.linkedin.com/company/starfleet-command/"
                 ] );
-            } );
+            } )
 
-        return serializeJson( prc.schema.toArray() );
+            // Add Creative Work Schema because it uses an ACF reserved keyword
+            .creativeWork( function( o ) {
+                o.id( baseUrl & "##creativeWork" )
+                    .name( "Star Trek" )
+                    ._abstract( "Star Trek is a science fiction franchise created by Gene Roddenberry that follows the adventures of the USS Enterprise (NCC-1701) and its crew as they explore space, discover new life, and seek out new civilizations." );
+            } ) 
+            .get();
+
+        return serializeJson( prc.schema );
 
     }
 
