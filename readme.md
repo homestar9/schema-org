@@ -97,7 +97,7 @@ prc.schema = sb
 
  - `toArray()`: Returns an array of all schema objects created.
 
- - `toJsonLd()`: Returns a seroa;ozed the JSON-LD representation of the schema graph (without the script tags).
+ - `toJsonLd()`: Returns serialized JSON-LD schema graph (without the script tags).
 
  - `[type]()` methods: Create specific schema types like `organization()`, `webpage()`, `product()`, etc. The method accepts a closure or a struct to define properties (see below).
 
