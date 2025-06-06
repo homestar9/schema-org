@@ -1,0 +1,13 @@
+// --------------------------------------------------------
+// AUTO-GENERATED: EventReservation.cfc
+// Do not hand-edit; re-run generator to update.
+// --------------------------------------------------------
+
+component extends="schema-org.types.Reservation" accessors="true" {
+
+
+    variables[ "@type" ] = "EventReservation";
+
+    variables._mappers[ "_abstract" ] = "abstract";
+
+}
