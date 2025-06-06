@@ -49,7 +49,7 @@ Woah, what? Nothing to configure? That's awesome!
 
 ```cfc
 // automatic injetcion
-property name="schema" inject="provider:SchemaBuilder@schema-org";
+property name="sb" inject="provider:SchemaBuilder@schema-org";
 
 // or manual instantiation
 var sb = getInstance( "SchemaBuilder@schema-org" );
@@ -60,7 +60,7 @@ var sb = getInstance( "SchemaBuilder@schema-org" );
 
 ```cfc
 // In your handler method
-prc.schema = schemaBuilder
+prc.schema = sb
     // Organization Schema
     .organization( function( o ) {
         o.id( "https://startrek.com/##organization" ) // must be unique
