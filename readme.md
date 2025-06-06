@@ -14,7 +14,7 @@ JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight Linked Dat
 
 ## Why Should I Use Structred JSON-LD Data in My Coldbox App?
 
-Using Schema.org structured data can improve your website's visibility in search results, enhance click-through rates, and provide a better user experience by allowing search engines to understand your content more effectively. It also enables rich snippets, which can display additional information like ratings, reviews, and product details directly in search results. Bottom line: it's an **essential part of modern SEO and web development**.
+Using Schema.org structured data can improve your website's visibility in search results by allowing search engines to understand your content more effectively. It also enables rich snippets, which can display additional information like ratings, reviews, and product details directly in search results. Bottom line: it's an **essential part of modern SEO and web development**.
 
 ## Requirements
 
