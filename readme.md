@@ -258,8 +258,8 @@ prc.schema = schemaBuilder.creativeWork( {
 } );
 ```
 
-**Vote** for Adobe to fix this issue in ACF 2023: [CF-4226929](https://tracker.adobe.com/#/view/CF-4226929).
-**Vote** for Adobe to fix this issue in ACF 2021: [CF-4226928](https://tracker.adobe.com/#/view/CF-4226928).
+- **Vote** for Adobe to fix this issue in ACF 2023: [CF-4226929](https://tracker.adobe.com/#/view/CF-4226929).
+- **Vote** for Adobe to fix this issue in ACF 2021: [CF-4226928](https://tracker.adobe.com/#/view/CF-4226928).
 
 
 ## Contributing
