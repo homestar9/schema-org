@@ -55,7 +55,6 @@ property name="sb" inject="provider:SchemaBuilder@schema-org";
 var sb = getInstance( "SchemaBuilder@schema-org" );
 ```
 
-
 2. Build your schema objects. The method names match the Schema.org object types. You can use either a closure or a struct to define properties for each schema type.
 
 ```cfc
@@ -128,7 +127,7 @@ You can define properties using a closure or a struct. The closure approach allo
 
 #### Using a Closure
 
-The below examples assume `sb` is an instance of `SchemaBuilder`.
+The below examples assume `sb` is an instance of `SchemaBuilder`. The closure receives a single argument, which is the schema object being built. You can chain methods to set properties.
 
 ```cfc
 sb.organization( function( o ) {
@@ -195,17 +194,17 @@ Here's a complete example of how you might use the `SchemaBuilder` in a ColdBox 
 
 #### In Your Handler
 
-Note that when building the `webpage` schema, we use `prc.canonicalUrl`, `prc.pageTitle`, and `prc.pageDescription` to dynamically set the schema properties based on the current page context. This allows for flexible schema generation across different pages without hardcoding values. All your pages should have these properties which is a best-practice for any modern website.
+Note that when building the `webpage` schema, we recommend using variables like `prc.canonicalUrl`, `prc.pageTitle`, and `prc.pageDescription` to dynamically set the schema properties based on the current page context. This allows for flexible schema generation across different pages without hardcoding values. All your pages should have these properties which is a best-practice for any modern website where SEO is a priority.
 
 ```cfc
 // /handlers/Schemas.cfc
 
 // Inject the SchemaBuilder into your handler
-property name="schemaBuilder" inject="provider:SchemaBuilder@schema-org";
+property name="sb" inject="provider:SchemaBuilder@schema-org";
 
 function index( event, rc, prc, eventName, routedUrl ) {
     // Build the schema objects
-    prc.schema = schemaBuilder
+    prc.schema = sb
         // add the organization schema based on Coldbox config settings
         .organization( getSetting( "schema" ).organization )
         // add the webpage schema based on Coldbox config settings
@@ -258,6 +257,10 @@ prc.schema = schemaBuilder.creativeWork( {
     abstract: "This is an example abstract." // no need for underscore
 } );
 ```
+
+**Vote** for Adobe to fix this issue in ACF 2023: [CF-4226929](https://tracker.adobe.com/#/view/CF-4226929).
+**Vote** for Adobe to fix this issue in ACF 2021: [CF-4226928](https://tracker.adobe.com/#/view/CF-4226928).
+
 
 ## Contributing
 
