@@ -2,7 +2,7 @@
 
 <img src="https://github.com/homestar9/schema-org/blob/master/schema-org.svg?raw=true" width="250" alt="Schema-Org ColdBox Module Logo" />
 
-**Schema-org** is a ColdBox module for building structured JSON-LD data using [Schema.org](https://schema.org) in a flexible, fluent, and framework-friendly way. This module helps you compose valid JSON-LD schema for SEO and rich results—without resorting to manual JSON.
+**Schema-org** is a ColdBox module for building structured JSON-LD data using [Schema.org](https://schema.org) in a flexible, fluent, and framework-friendly way.
 
 ## What is Schema.org?
 
@@ -10,7 +10,7 @@ Schema.org is a collaborative vocabulary standard (initiated by Google, Microsof
 
 ## What is JSON-LD?
 
-JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight Linked Data format that allows you to express structured data in a way that is easy for both humans and machines to read. It uses JSON syntax to provide context and meaning to data, making it ideal for embedding structured information in web pages.
+JSON-LD (JavaScript Object Notation for Linked Data) is a data format that allows you to express structured data in a way that is easy for both humans and machines to read. It is ideal for embedding structured information in web pages.
 
 ## Why Should I Use Structred JSON-LD Data in My Coldbox App?
 
