@@ -209,6 +209,75 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 expect( left( result, len( data.scriptTag ) ) ).toBe( data.scriptTag );
             });
 
+            it("can append a pre-built raw node struct via addNode()", function() {
+                var node = structNew( "ordered" );
+                node[ "@type" ] = "FAQPage";
+                node[ "mainEntity" ] = [ {
+                    "@type": "Question",
+                    "name": "Is this a test?",
+                    "acceptedAnswer": { "@type": "Answer", "text": "Yes." }
+                } ];
+
+                var result = model
+                    .organization( data.valid.organization )
+                    .addNode( node )
+                    .toArray();
+
+                expect( result.len() ).toBe( 2 );
+                expect( result[ 1 ][ "@type" ] ).toBe( "Organization" );
+                expect( result[ 2 ][ "@type" ] ).toBe( "FAQPage" );
+                // raw nodes pass through verbatim, untouched by memento processing
+                expect( result[ 2 ][ "mainEntity" ][ 1 ][ "name" ] ).toBe( "Is this a test?" );
+            });
+
+            it("raw() is an alias for addNode()", function() {
+                var node = { "@type": "WebPage", "name": "Raw Page" };
+                var result = model.raw( node ).toArray();
+
+                expect( result.len() ).toBe( 1 );
+                expect( result[ 1 ][ "@type" ] ).toBe( "WebPage" );
+                expect( result[ 1 ][ "name" ] ).toBe( "Raw Page" );
+            });
+
+            it("escapes closing tags in JSON-LD so content cannot break out of a script element", function() {
+                var result = model.creativeWork( {
+                    "name": "Escape Test",
+                    "text": "Before </script><script>alert(1)</script> after"
+                } ).toJsonLd();
+
+                expect( isJson( result ) ).toBeTrue();
+                expect( result ).notToInclude( "</script>" );
+                expect( result ).toInclude( "<\/script>" );
+            });
+
+            it("serializes @context before @graph, and @type first within each node", function() {
+                var result = model.organization( data.valid.organization ).toJsonLd();
+
+                expect( find( '"@context"', result ) ).toBeLT( find( '"@graph"', result ) );
+                expect( find( '"@type"', result ) ).toBeLT( find( '"name"', result ) );
+            });
+
+            it("when() conditionally chains without breaking the fluent interface", function() {
+                var result = model
+                    .when( true, function( sb ) {
+                        sb.organization( data.valid.organization );
+                    } )
+                    .when( false, function( sb ) {
+                        sb.website( data.valid.website );
+                    } )
+                    .toArray();
+
+                expect( result.len() ).toBe( 1 );
+                expect( result[ 1 ][ "@type" ] ).toBe( "Organization" );
+            });
+
+            it("keeps legitimate zero values in mementos", function() {
+                var result = model.rating( { "ratingValue": 0, "bestRating": 5 } ).toArray();
+
+                expect( result[ 1 ] ).toHaveKey( "ratingValue" );
+                expect( result[ 1 ][ "ratingValue" ] ).toBe( 0 );
+            });
+
             it("calling get() is the same as calling toGraph()", function() {
                 var builder = model
                     .organization( function(o) {

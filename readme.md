@@ -96,7 +96,16 @@ prc.schema = sb
 
  - `toArray()`: Returns an array of all schema objects created.
 
- - `toJsonLd()`: Returns serialized JSON-LD schema graph (without the script tags).
+ - `toJsonLd()`: Returns serialized JSON-LD schema graph (without the script tags). Any `</` in content is escaped as `<\/` (still valid JSON) so user-supplied text containing a closing script tag can never break out of the surrounding `<script>` element.
+
+ - `addNode( node )` (alias `raw( node )`): Appends a pre-built node struct to the graph verbatim. Useful when another library or service (for example, a CMS) hands you a finished schema.org node and you want it to ride along in your page graph next to the types you build here:
+
+    ```js
+    var faqNode = { "@type": "FAQPage", "mainEntity": [ ... ] }; // built elsewhere
+    schema.organization( ... ).addNode( faqNode ).render();
+    ```
+
+ - `when( condition, onTrue [, onFalse] )`: Conditional chaining without breaking the fluent interface, QB-style.
 
  - `[type]()` methods: Create specific schema types like `organization()`, `webpage()`, `product()`, etc. The method accepts a closure or a struct to define properties (see below).
 

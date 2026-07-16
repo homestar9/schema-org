@@ -176,7 +176,9 @@ component
 	struct function getMemento( excludeEmpty = true ){
 		
         var includes = getProperties();
-		var result = {};
+		// Ordered so "@type" (declared first on BaseType) reliably leads each node
+		// and serialized output is deterministic across engines.
+		var result = structNew( "ordered" );
 
 		// Process Includes
 		// Please keep at a traditional LOOP to avoid closure reference memory leaks and slowness on some engines.
@@ -233,8 +235,10 @@ component
 		}
 
         // process mappers (transforming key names -- different than mementifier)
+        // Iterate a snapshot of the keys: deleting/adding while iterating a struct
+        // (especially an ordered one) can throw on some engines.
         if ( !variables._mappers.isEmpty() ) {
-            for ( var key in result ) {
+            for ( var key in result.keyArray() ) {
                 // Do we have a mapper according to this key?
                 if ( hasMapper( key ) ) {
                     // Transform it

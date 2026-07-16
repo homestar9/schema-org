@@ -56,6 +56,30 @@ component
     }
 
     /**
+     * addNode
+     * Appends a pre-built schema node (a plain struct, typically containing an "@type" key)
+     * to the builder verbatim. Use this when another library or service has already produced
+     * a finished node struct and you want it to ride along in this builder's graph next to
+     * the types built through the dynamic type methods.
+     *
+     * @node A struct representing one schema.org node (e.g. { "@type": "FAQPage", ... }).
+     */
+    function addNode( required struct node ) {
+        variables.schemas.append( arguments.node );
+        return this;
+    }
+
+    /**
+     * raw
+     * Alias for addNode().
+     *
+     * @node A struct representing one schema.org node.
+     */
+    function raw( required struct node ) {
+        return addNode( arguments.node );
+    }
+
+    /**
      * When is a useful helper method that introduces if / else control flow without breaking chainability.
      * When the `condition` is true, the `onTrue` callback is triggered.  
      * If the `condition` is false and an `onFalse` callback is passed, it is triggered.  Otherwise, the builder is returned.
@@ -65,7 +89,7 @@ component
      * @onTrue          A closure that will be triggered if the `condition` is true.
      * @onFalse         A closure that will be triggered if the `condition` is false.
      */
-    public QueryBuilder function when(
+    public function when(
         required boolean condition,
         required function onTrue,
         function onFalse
@@ -106,33 +130,39 @@ component
      * toArray
      * Converts the schemas array to an array of mementos.
      * Each schema object is converted to its memento representation.
+     * Raw node structs added via addNode() pass through as-is.
      */
     array function toArray() {
         return schemas.map( function( schema ) {
-            return schema.getMemento();
+            // isObject(), not isStruct(): Lucee reports components as structs too,
+            // which would leak unserialized type objects into the graph.
+            return isObject( schema ) ? schema.getMemento() : schema;
         } );
     }
 
     /**
      * toGraph
      * Converts the schemas array to a graph format.
-     * This is a struct with a context and an array of schemas.
+     * This is an ordered struct with a context and an array of schemas, so
+     * "@context" reliably serializes before "@graph".
      */
     struct function toGraph() {
-        return {
-            "@context": "https://schema.org",
-            "@graph": this.toArray()
-        };
+        var graph = structNew( "ordered" );
+        graph[ "@context" ] = "https://schema.org";
+        graph[ "@graph" ] = this.toArray();
+        return graph;
     }
 
     /**
      * toJsonLd
      * Serializes the schema to JSON-LD format.
      * This is useful for embedding the schema in HTML pages.
+     * Escapes "</" as "<\/" (still valid JSON) so content containing a closing
+     * script tag can never break out of the surrounding script element.
      * @return A string containing the JSON-LD representation of the schema.
      */
     string function toJsonLd() {
-        return serializeJson( this.toGraph() );
+        return replace( serializeJson( this.toGraph() ), "</", "<\/", "all" );
     }
 
     /**
