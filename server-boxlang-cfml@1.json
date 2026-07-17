@@ -21,7 +21,7 @@
         "javaVersion":"openjdk21_jre",
         "args":"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888"
     },
-    "openBrowser":"true",
+    "openBrowser":false,
     "cfconfig":{
         "file":".cfconfig.json"
     },

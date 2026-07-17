@@ -16,7 +16,7 @@
             "/moduleroot/schema-org":"../"
         }
     },
-    "openBrowser":"false",
+    "openBrowser":false,
     "cfconfig":{
         "file":".cfconfig.json"
     }
