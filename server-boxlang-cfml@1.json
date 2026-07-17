@@ -13,7 +13,7 @@
         },
         "webroot":"test-harness",
         "aliases":{
-            "/moduleroot/schema-orgs":"../"
+            "/moduleroot/schema-org":"../"
         }
     },
     "JVM":{

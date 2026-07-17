@@ -134,9 +134,15 @@ component
      */
     array function toArray() {
         return schemas.map( function( schema ) {
-            // isObject(), not isStruct(): Lucee reports components as structs too,
-            // which would leak unserialized type objects into the graph.
-            return isObject( schema ) ? schema.getMemento() : schema;
+            // Distinguish built type components (which carry getMemento(), inherited from BaseType)
+            // from raw node structs added via addNode()/raw() (which do not). A capability check is
+            // used rather than isObject(): some engines (notably BoxLang) do not report a component
+            // instance as an object here, which would silently leak an unserialized type object into
+            // the graph. This matches the discriminator BaseType.getMemento() already uses on nested
+            // relationships.
+            return ( !isSimpleValue( schema ) && structKeyExists( schema, "getMemento" ) )
+                ? schema.getMemento()
+                : schema;
         } );
     }
 
@@ -157,12 +163,18 @@ component
      * toJsonLd
      * Serializes the schema to JSON-LD format.
      * This is useful for embedding the schema in HTML pages.
-     * Escapes "</" as "<\/" (still valid JSON) so content containing a closing
-     * script tag can never break out of the surrounding script element.
+     * Escapes "<" as < (still valid JSON, byte-identical once parsed) so no payload can emit a
+     * literal "</script>", "<!--" or "<script" to break out of, or hijack, the surrounding <script>
+     * element. Only "<" needs escaping: inside a <script> element HTML entities are not decoded, so
+     * ">" and "&" are inert and left readable (schema.org URLs routinely carry "&" in query strings).
+     * Escaping just "</" — the previous behavior — left the "<!--<script" double-escape breakout open.
      * @return A string containing the JSON-LD representation of the schema.
      */
     string function toJsonLd() {
-        return replace( serializeJson( this.toGraph() ), "</", "<\/", "all" );
+        // chr( 92 ) is the backslash; built this way because CFML does not interpret backslash escapes
+        // in string literals, so "bs & 'u003c'" yields the literal < a JSON parser reads as "<".
+        var bs = chr( 92 );
+        return replace( serializeJson( this.toGraph() ), "<", bs & "u003c", "all" );
     }
 
     /**

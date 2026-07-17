@@ -8,8 +8,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
         "dirList" = directoryList( expandPath( "../../../../types/" ), true, "query" )
     };
 
-    writeDump( expandPath( "../../../../types/" ) );
-    
     /*********************************** LIFE CYCLE Methods ***********************************/
 
 	function beforeAll(){

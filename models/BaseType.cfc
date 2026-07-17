@@ -82,7 +82,11 @@ component
 			return result;
 		}
         
-        throw( type="MethodNotFound", message="Method '#arguments.missingMethodName#'' not found in '#variables[ '@type' ]#', nor could I find a matching setter. This could mean there is no property by that name." );
+        // A raw BaseType has no "@type" (only concrete generated types set it), so guard the read:
+        // evaluating an unset variables['@type'] would itself throw "element @type is undefined" and
+        // mask the intended MethodNotFound.
+        var typeName = variables[ "@type" ] ?: "BaseType";
+        throw( type="MethodNotFound", message="Method '#arguments.missingMethodName#' not found in '#typeName#', nor could I find a matching setter. This could mean there is no property by that name." );
         
     }
 

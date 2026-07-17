@@ -119,7 +119,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 expect( result["@graph"] ).toBeArray();
                 expect( result["@graph"].len() ).toBe( 2 );
                 expect( result["@graph"][1]["@type"] ).toBe( "Organization" );
-                expect( result["@graph"][2]["@type"] ).toBe( "Website" );
+                expect( result["@graph"][2]["@type"] ).toBe( "WebSite" );
             });
 
             it("can populate a schema by passing in a struct", function() {
@@ -136,7 +136,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 expect( result["@graph"] ).toBeArray();
                 expect( result["@graph"].len() ).toBe( 3 );
                 expect( result["@graph"][1]["@type"] ).toBe( "Organization" );
-                expect( result["@graph"][2]["@type"] ).toBe( "Website" );
+                expect( result["@graph"][2]["@type"] ).toBe( "WebSite" );
                 expect( result["@graph"][3]["@type"] ).toBe( "CreativeWork" );
             });
 
@@ -246,8 +246,10 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 } ).toJsonLd();
 
                 expect( isJson( result ) ).toBeTrue();
-                expect( result ).notToInclude( "</script>" );
-                expect( result ).toInclude( "<\/script>" );
+                // No raw "<" can survive, so </script>, <!-- and <script are all impossible to emit.
+                expect( result ).notToInclude( "<" );
+                // Escaped, not dropped: the value round-trips back to the original markup.
+                expect( deserializeJson( result )[ "@graph" ][ 1 ][ "text" ] ).toBe( "Before </script><script>alert(1)</script> after" );
             });
 
             it("serializes @context before @graph, and @type first within each node", function() {
