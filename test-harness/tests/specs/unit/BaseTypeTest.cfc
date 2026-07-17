@@ -7,7 +7,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
         },
         "dirList" = directoryList( expandPath( "../../../../types/" ), true, "query" )
     };
-    
+
     /*********************************** LIFE CYCLE Methods ***********************************/
 
 	function beforeAll(){

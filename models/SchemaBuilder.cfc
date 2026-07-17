@@ -56,6 +56,30 @@ component
     }
 
     /**
+     * addNode
+     * Appends a pre-built schema node (a plain struct, typically containing an "@type" key)
+     * to the builder verbatim. Use this when another library or service has already produced
+     * a finished node struct and you want it to ride along in this builder's graph next to
+     * the types built through the dynamic type methods.
+     *
+     * @node A struct representing one schema.org node (e.g. { "@type": "FAQPage", ... }).
+     */
+    function addNode( required struct node ) {
+        variables.schemas.append( arguments.node );
+        return this;
+    }
+
+    /**
+     * raw
+     * Alias for addNode().
+     *
+     * @node A struct representing one schema.org node.
+     */
+    function raw( required struct node ) {
+        return addNode( arguments.node );
+    }
+
+    /**
      * When is a useful helper method that introduces if / else control flow without breaking chainability.
      * When the `condition` is true, the `onTrue` callback is triggered.  
      * If the `condition` is false and an `onFalse` callback is passed, it is triggered.  Otherwise, the builder is returned.
@@ -65,7 +89,7 @@ component
      * @onTrue          A closure that will be triggered if the `condition` is true.
      * @onFalse         A closure that will be triggered if the `condition` is false.
      */
-    public QueryBuilder function when(
+    public function when(
         required boolean condition,
         required function onTrue,
         function onFalse
@@ -106,33 +130,51 @@ component
      * toArray
      * Converts the schemas array to an array of mementos.
      * Each schema object is converted to its memento representation.
+     * Raw node structs added via addNode() pass through as-is.
      */
     array function toArray() {
         return schemas.map( function( schema ) {
-            return schema.getMemento();
+            // Distinguish built type components (which carry getMemento(), inherited from BaseType)
+            // from raw node structs added via addNode()/raw() (which do not). A capability check is
+            // used rather than isObject(): some engines (notably BoxLang) do not report a component
+            // instance as an object here, which would silently leak an unserialized type object into
+            // the graph. This matches the discriminator BaseType.getMemento() already uses on nested
+            // relationships.
+            return ( !isSimpleValue( schema ) && structKeyExists( schema, "getMemento" ) )
+                ? schema.getMemento()
+                : schema;
         } );
     }
 
     /**
      * toGraph
      * Converts the schemas array to a graph format.
-     * This is a struct with a context and an array of schemas.
+     * This is an ordered struct with a context and an array of schemas, so
+     * "@context" reliably serializes before "@graph".
      */
     struct function toGraph() {
-        return {
-            "@context": "https://schema.org",
-            "@graph": this.toArray()
-        };
+        var graph = structNew( "ordered" );
+        graph[ "@context" ] = "https://schema.org";
+        graph[ "@graph" ] = this.toArray();
+        return graph;
     }
 
     /**
      * toJsonLd
      * Serializes the schema to JSON-LD format.
      * This is useful for embedding the schema in HTML pages.
+     * Escapes "<" as < (still valid JSON, byte-identical once parsed) so no payload can emit a
+     * literal "</script>", "<!--" or "<script" to break out of, or hijack, the surrounding <script>
+     * element. Only "<" needs escaping: inside a <script> element HTML entities are not decoded, so
+     * ">" and "&" are inert and left readable (schema.org URLs routinely carry "&" in query strings).
+     * Escaping just "</" — the previous behavior — left the "<!--<script" double-escape breakout open.
      * @return A string containing the JSON-LD representation of the schema.
      */
     string function toJsonLd() {
-        return serializeJson( this.toGraph() );
+        // chr( 92 ) is the backslash; built this way because CFML does not interpret backslash escapes
+        // in string literals, so "bs & 'u003c'" yields the literal < a JSON parser reads as "<".
+        var bs = chr( 92 );
+        return replace( serializeJson( this.toGraph() ), "<", bs & "u003c", "all" );
     }
 
     /**

@@ -13,7 +13,7 @@
         },
         "webroot":"test-harness",
         "aliases":{
-            "/moduleroot/schema-orgs":"../"
+            "/moduleroot/schema-org":"../"
         }
     },
     "JVM":{
@@ -21,7 +21,7 @@
         "javaVersion":"openjdk21_jre",
         "args":"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888"
     },
-    "openBrowser":"false",
+    "openBrowser":false,
     "cfconfig":{
         "file":".cfconfig.json"
     },

@@ -82,7 +82,11 @@ component
 			return result;
 		}
         
-        throw( type="MethodNotFound", message="Method '#arguments.missingMethodName#'' not found in '#variables[ '@type' ]#', nor could I find a matching setter. This could mean there is no property by that name." );
+        // A raw BaseType has no "@type" (only concrete generated types set it), so guard the read:
+        // evaluating an unset variables['@type'] would itself throw "element @type is undefined" and
+        // mask the intended MethodNotFound.
+        var typeName = variables[ "@type" ] ?: "BaseType";
+        throw( type="MethodNotFound", message="Method '#arguments.missingMethodName#' not found in '#typeName#', nor could I find a matching setter. This could mean there is no property by that name." );
         
     }
 
@@ -176,7 +180,9 @@ component
 	struct function getMemento( excludeEmpty = true ){
 		
         var includes = getProperties();
-		var result = {};
+		// Ordered so "@type" (declared first on BaseType) reliably leads each node
+		// and serialized output is deterministic across engines.
+		var result = structNew( "ordered" );
 
 		// Process Includes
 		// Please keep at a traditional LOOP to avoid closure reference memory leaks and slowness on some engines.
@@ -233,8 +239,10 @@ component
 		}
 
         // process mappers (transforming key names -- different than mementifier)
+        // Iterate a snapshot of the keys: deleting/adding while iterating a struct
+        // (especially an ordered one) can throw on some engines.
         if ( !variables._mappers.isEmpty() ) {
-            for ( var key in result ) {
+            for ( var key in result.keyArray() ) {
                 // Do we have a mapper according to this key?
                 if ( hasMapper( key ) ) {
                     // Transform it

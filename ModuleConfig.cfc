@@ -9,7 +9,7 @@ component {
 	this.title 				= "schema-org";
 	this.author 			= "Angry Sam Productions, Inc.";
 	this.webURL 			= "https://www.angrysam.com";
-	this.description 		= "@MODULE_DESCRIPTION@";
+	this.description 		= "A ColdBox module for schema.org structured data";
 	this.version 			= "@build.version@+@build.number@";
 
 	// Model Namespace
