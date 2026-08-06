@@ -1,64 +1,81 @@
 {
-	"name" : "schema-org",
-	"version" : "1.1.0",
-    "location": "ForgeboxStorage",
-    "author": "Angry Sam Productions, Inc.",
-	"homepage" : "https://github.com/homestar9/schema-org",
-	"documentation" : "https://github.com/homestar9/schema-org",
-	"repository"		: { "type" : "git", "url" : "https://github.com/homestar9/schema-org" },
-	"bugs" : "https://github.com/homestar9/schema-org/issues",
-	"shortDescription"	: "A ColdBox module for building structured JSON-LD data using Schema.org conventions",
-	"slug"		: "schema-org",
-	"type"		: "modules",
-	"keywords":"",
-	"license"			: [
-		{ "type" : "Apache2", "url" : "http://www.apache.org/licenses/LICENSE-2.0.html" }
-	],
-	"contributors"		: [
-	],
-	"dependencies" 	:{
-	},
-	"devDependencies" 	:{
-		"commandbox-boxlang":"*",
-		"commandbox-cfformat":"*",
+    "name":"schema-org",
+    "version":"1.1.0",
+    "location":"ForgeboxStorage",
+    "author":"Angry Sam Productions, Inc.",
+    "homepage":"https://github.com/homestar9/schema-org",
+    "documentation":"https://github.com/homestar9/schema-org",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/homestar9/schema-org"
+    },
+    "bugs":"https://github.com/homestar9/schema-org/issues",
+    "shortDescription":"A ColdBox module for building structured JSON-LD data using Schema.org conventions",
+    "slug":"schema-org",
+    "type":"modules",
+    "keywords":"",
+    "license":[
+        {
+            "type":"Apache2",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ],
+    "contributors":[],
+    "dependencies":{},
+    "devDependencies":{
+        "commandbox-boxlang":"*",
+        "commandbox-cfformat":"*",
         "commandbox-docbox":"*"
-	},
-	"ignore":[
+    },
+    "ignore":[
         "**/.*",
         "test-harness",
-		"/server*.json",
+        "/server*.json",
         "/generator"
     ],
-	"scripts":{
-		"build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
-		"build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
+    "scripts":{
+        "build:module":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
+        "build:docs":"task run taskFile=build/Build.cfc target=docs :projectName=`package show slug` :version=`package show version`",
         "install:dependencies":"install && cd test-harness && install",
-		"release":"recipe build/release.boxr",
         "format":"cfformat run models,test-harness/tests/,ModuleConfig.cfc --overwrite",
         "format:watch":"cfformat watch models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
         "format:check":"cfformat check models,test-harness/tests/,ModuleConfig.cfc ./.cfformat.json",
-		"start:boxlang" : "server start serverConfigFile=server-boxlang-cfml@1.json",
-		"start:lucee" : "server start serverConfigFile=server-lucee@5.json",
-		"start:lucee6" : "server start serverConfigFile=server-lucee@6.json",
-		"start:2023" : "server start serverConfigFile=server-adobe@2023.json",
-		"start:2025" : "server start serverConfigFile=server-adobe@2025.json",
-		"stop:boxlang" : "server stop serverConfigFile=server-boxlang-cfml@1.json",
-		"stop:lucee" : "server stop serverConfigFile=server-lucee@5.json",
-		"stop:lucee6" : "server stop serverConfigFile=server-lucee@6.json",
-		"stop:2023" : "server stop serverConfigFile=server-adobe@2023.json",
-		"stop:2025" : "server stop serverConfigFile=server-adobe@2025.json",
-		"logs:boxlang" : "server log serverConfigFile=server-boxlang-cfml@1.json --follow",
-		"logs:lucee" : "server log serverConfigFile=server-lucee@5.json --follow",
-		"logs:lucee6" : "server log serverConfigFile=server-lucee@6.json --follow",
-		"logs:2023" : "server log serverConfigFile=server-adobe@2023.json --follow",
-		"logs:2025" : "server log serverConfigFile=server-adobe@2025.json --follow",
-        "forget:lucee" : "server forget serverConfigFile=server-lucee@5.json",
-        "forget:lucee6" : "server forget serverConfigFile=server-lucee@6.json",
-		"forget:2023" : "server forget serverConfigFile=server-adobe@2023.json",
-		"forget:2025" : "server forget serverConfigFile=server-adobe@2025.json",
-        "forget:boxlang" : "server forget serverConfigFile=server-boxlang-cfml@1.json"
+        "start:boxlang":"server start serverConfigFile=server-boxlang-cfml@1.json",
+        "start:lucee":"server start serverConfigFile=server-lucee@5.json",
+        "start:lucee6":"server start serverConfigFile=server-lucee@6.json",
+        "start:2023":"server start serverConfigFile=server-adobe@2023.json",
+        "start:2025":"server start serverConfigFile=server-adobe@2025.json",
+        "stop:boxlang":"server stop serverConfigFile=server-boxlang-cfml@1.json",
+        "stop:lucee":"server stop serverConfigFile=server-lucee@5.json",
+        "stop:lucee6":"server stop serverConfigFile=server-lucee@6.json",
+        "stop:2023":"server stop serverConfigFile=server-adobe@2023.json",
+        "stop:2025":"server stop serverConfigFile=server-adobe@2025.json",
+        "logs:boxlang":"server log serverConfigFile=server-boxlang-cfml@1.json --follow",
+        "logs:lucee":"server log serverConfigFile=server-lucee@5.json --follow",
+        "logs:lucee6":"server log serverConfigFile=server-lucee@6.json --follow",
+        "logs:2023":"server log serverConfigFile=server-adobe@2023.json --follow",
+        "logs:2025":"server log serverConfigFile=server-adobe@2025.json --follow",
+        "forget:lucee":"server forget serverConfigFile=server-lucee@5.json",
+        "forget:lucee6":"server forget serverConfigFile=server-lucee@6.json",
+        "forget:2023":"server forget serverConfigFile=server-adobe@2023.json",
+        "forget:2025":"server forget serverConfigFile=server-adobe@2025.json",
+        "forget:boxlang":"server forget serverConfigFile=server-boxlang-cfml@1.json",
+        "test:engines":"task run taskFile=build/TestEngines.cfc",
+        "bump:alpha":"task run taskFile=build/Bump.cfc :level=preminor :preid=alpha",
+        "release:hotfix":"task run taskFile=build/Release.cfc target=run :version=`package show version` :skipTests=true",
+        "release:existing-tag":"task run taskFile=build/Release.cfc target=run :version=`package show version` :existingTag=true",
+        "release:skip-tests":"task run taskFile=build/Release.cfc target=run :version=`package show version` :skipTests=true",
+        "bump:patch":"task run taskFile=build/Bump.cfc :level=patch",
+        "build:package":"task run taskFile=build/Build.cfc :projectName=`package show slug` :version=`package show version`",
+        "bump:beta":"task run taskFile=build/Bump.cfc :level=preminor :preid=beta",
+        "release:dryrun":"task run taskFile=build/Release.cfc target=run :version=`package show version` :dryRun=true",
+        "release:check":"task run taskFile=build/Doctor.cfc",
+        "release":"task run taskFile=build/Release.cfc target=run :version=`package show version`",
+        "bump:major":"task run taskFile=build/Bump.cfc :level=major",
+        "bump:prerelease":"task run taskFile=build/Bump.cfc :level=prerelease",
+        "bump:minor":"task run taskFile=build/Bump.cfc :level=minor"
     },
-	"testbox":{
+    "testbox":{
         "runner":"http://localhost:60299/tests/runner.cfm"
     }
 }
