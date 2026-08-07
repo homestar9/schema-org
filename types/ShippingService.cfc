@@ -20,6 +20,4 @@ In the context of [[ShippingService]], use the [[ServicePeriod]] format, that co
 
     variables[ "@type" ] = "ShippingService";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

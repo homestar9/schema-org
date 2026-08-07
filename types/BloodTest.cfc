@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalTest" accessors="true" {
 
     variables[ "@type" ] = "BloodTest";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

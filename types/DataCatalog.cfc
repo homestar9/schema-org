@@ -20,6 +20,4 @@ If there are several [[variableMeasured]] properties recorded for some given dat
 
     variables[ "@type" ] = "DataCatalog";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

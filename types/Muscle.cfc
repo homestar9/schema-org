@@ -18,6 +18,4 @@ component extends="schema-org.types.AnatomicalStructure" accessors="true" {
 
     variables[ "@type" ] = "Muscle";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

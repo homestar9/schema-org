@@ -8,6 +8,4 @@ component extends="schema-org.types.DataFeed" accessors="true" {
 
     variables[ "@type" ] = "CompleteDataFeed";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

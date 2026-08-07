@@ -8,6 +8,4 @@ component extends="schema-org.types.PlanAction" accessors="true" {
 
     variables[ "@type" ] = "ReserveAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

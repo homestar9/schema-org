@@ -171,7 +171,7 @@ Unregistered or niche encoding and file formats can be indicated instead via the
 
     property name="material" hint="A material that something is made from, e.g. leather, wool, cotton, paper.";
 
-    property name="materialExtent" hint="{@language={en}, @value={The quantity of the materials being described or an expression of the physical space they occupy.}}";
+    property name="materialExtent" hint="The quantity of the materials being described or an expression of the physical space they occupy.";
 
     property name="mentions" hint="Indicates that the CreativeWork contains a reference to, but is not necessarily about a concept.";
 
@@ -247,7 +247,7 @@ Open-ended date ranges can be written with '..' in place of the end date. For ex
 
     property name="timeRequired" hint="Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience.";
 
-    property name="translationOfWork" hint="The work that this work has been translated from. E.g. 物�?起�? is a translationOf “On the Origin of Species�?.";
+    property name="translationOfWork" hint="The work that this work has been translated from. E.g. 物种起源 is a translationOf “On the Origin of Species”.";
 
     property name="translator" hint="Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.";
 
@@ -265,7 +265,7 @@ This property can be used alongside the license property which indicates license
 
     property name="workExample" hint="Example/instance/realization/derivation of the concept of this creative work. E.g. the paperback edition, first edition, or e-book.";
 
-    property name="workTranslation" hint="A work that is a translation of the content of this work. E.g. 西�?�記 has an English workTranslation “Journey to the West�?, a German workTranslation “Monkeys Pilgerfahrt�? and a Vietnamese  translation Tây du ký bình khảo.";
+    property name="workTranslation" hint="A work that is a translation of the content of this work. E.g. 西遊記 has an English workTranslation “Journey to the West”, a German workTranslation “Monkeys Pilgerfahrt” and a Vietnamese  translation Tây du ký bình khảo.";
 
 
     variables[ "@type" ] = "CreativeWork";

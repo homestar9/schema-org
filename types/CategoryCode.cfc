@@ -12,6 +12,4 @@ component extends="schema-org.types.DefinedTerm" accessors="true" {
 
     variables[ "@type" ] = "CategoryCode";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

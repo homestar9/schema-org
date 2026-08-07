@@ -12,6 +12,4 @@ component extends="schema-org.types.PriceSpecification" accessors="true" {
 
     variables[ "@type" ] = "CompoundPriceSpecification";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

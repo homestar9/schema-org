@@ -10,6 +10,4 @@ component extends="schema-org.types.WebContent" accessors="true" {
 
     variables[ "@type" ] = "HealthTopicContent";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

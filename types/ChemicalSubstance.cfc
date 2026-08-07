@@ -14,6 +14,4 @@ component extends="schema-org.types.BioChemEntity" accessors="true" {
 
     variables[ "@type" ] = "ChemicalSubstance";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

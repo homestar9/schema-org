@@ -10,6 +10,4 @@ component extends="schema-org.types.ChooseAction" accessors="true" {
 
     variables[ "@type" ] = "VoteAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

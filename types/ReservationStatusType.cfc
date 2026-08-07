@@ -8,6 +8,4 @@ component extends="schema-org.types.StatusEnumeration" accessors="true" {
 
     variables[ "@type" ] = "ReservationStatusType";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

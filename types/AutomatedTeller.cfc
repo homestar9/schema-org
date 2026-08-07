@@ -8,6 +8,4 @@ component extends="schema-org.types.FinancialService" accessors="true" {
 
     variables[ "@type" ] = "AutomatedTeller";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

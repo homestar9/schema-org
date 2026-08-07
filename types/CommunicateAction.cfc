@@ -16,6 +16,4 @@ component extends="schema-org.types.InteractAction" accessors="true" {
 
     variables[ "@type" ] = "CommunicateAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.WebPageElement" accessors="true" {
 
     variables[ "@type" ] = "WPAdBlock";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -17,6 +17,4 @@ component extends="schema-org.types.Offer" accessors="true" {
 
     variables[ "@type" ] = "AggregateOffer";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

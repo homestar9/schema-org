@@ -10,6 +10,4 @@ component extends="schema-org.types.MedicalIntangible" accessors="true" {
 
     variables[ "@type" ] = "DrugLegalStatus";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

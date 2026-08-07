@@ -8,6 +8,4 @@ component extends="schema-org.types.AudioObject" accessors="true" {
 
     variables[ "@type" ] = "AudioObjectSnapshot";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.AllocateAction" accessors="true" {
 
     variables[ "@type" ] = "RejectAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

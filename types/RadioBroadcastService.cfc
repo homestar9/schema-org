@@ -8,6 +8,4 @@ component extends="schema-org.types.BroadcastService" accessors="true" {
 
     variables[ "@type" ] = "RadioBroadcastService";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

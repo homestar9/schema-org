@@ -14,6 +14,4 @@ component extends="schema-org.types.InformAction" accessors="true" {
 
     variables[ "@type" ] = "RsvpAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

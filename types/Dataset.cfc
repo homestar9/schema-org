@@ -34,6 +34,4 @@ If there are several [[variableMeasured]] properties recorded for some given dat
 
     variables[ "@type" ] = "Dataset";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

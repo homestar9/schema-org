@@ -8,6 +8,4 @@ component extends="schema-org.types.MediaGallery" accessors="true" {
 
     variables[ "@type" ] = "ImageGallery";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

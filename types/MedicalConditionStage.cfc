@@ -12,6 +12,4 @@ component extends="schema-org.types.MedicalIntangible" accessors="true" {
 
     variables[ "@type" ] = "MedicalConditionStage";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

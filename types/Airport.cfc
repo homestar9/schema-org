@@ -12,6 +12,4 @@ component extends="schema-org.types.CivicStructure" accessors="true" {
 
     variables[ "@type" ] = "Airport";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

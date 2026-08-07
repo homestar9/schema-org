@@ -8,6 +8,4 @@ component extends="schema-org.types.LocalBusiness" accessors="true" {
 
     variables[ "@type" ] = "EntertainmentBusiness";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

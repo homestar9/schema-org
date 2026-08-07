@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalEntity" accessors="true" {
 
     variables[ "@type" ] = "LifestyleModification";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

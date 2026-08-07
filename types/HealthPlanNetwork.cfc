@@ -14,6 +14,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "HealthPlanNetwork";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

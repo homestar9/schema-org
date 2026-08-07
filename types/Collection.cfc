@@ -5,11 +5,9 @@
 
 component extends="schema-org.types.CreativeWork" accessors="true" {
 
-    property name="collectionSize" hint="{@language={en}, @value={The number of items in the [[Collection]].}}";
+    property name="collectionSize" hint="The number of items in the [[Collection]].";
 
 
     variables[ "@type" ] = "Collection";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

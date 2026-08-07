@@ -10,6 +10,4 @@ component extends="schema-org.types.AssessAction" accessors="true" {
 
     variables[ "@type" ] = "ReviewAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

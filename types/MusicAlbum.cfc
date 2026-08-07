@@ -16,6 +16,4 @@ component extends="schema-org.types.MusicPlaylist" accessors="true" {
 
     variables[ "@type" ] = "MusicAlbum";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

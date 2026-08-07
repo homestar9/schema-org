@@ -25,6 +25,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "Trip";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

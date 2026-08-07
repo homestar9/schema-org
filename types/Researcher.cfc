@@ -8,6 +8,4 @@ component extends="schema-org.types.Audience" accessors="true" {
 
     variables[ "@type" ] = "Researcher";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

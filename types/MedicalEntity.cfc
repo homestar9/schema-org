@@ -24,6 +24,4 @@ component extends="schema-org.types.Thing" accessors="true" {
 
     variables[ "@type" ] = "MedicalEntity";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

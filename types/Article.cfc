@@ -32,8 +32,6 @@ For more sophisticated markup of speakable sections beyond simple ID references,
 we define a supporting type, [[SpeakableSpecification]]  which is defined to be a possible value of the *speakable* property.
          ";
 
-    property name="wordCount" hint="The number of words in the text of the CreativeWork such as an Article, Book, etc.";
-
 
     variables[ "@type" ] = "Article";
 

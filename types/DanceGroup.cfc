@@ -8,6 +8,4 @@ component extends="schema-org.types.PerformingGroup" accessors="true" {
 
     variables[ "@type" ] = "DanceGroup";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

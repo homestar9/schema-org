@@ -17,6 +17,4 @@ component extends="schema-org.types.TransferAction" accessors="true" {
 
     variables[ "@type" ] = "DonateAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -52,6 +52,4 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
 
     variables[ "@type" ] = "VideoGameSeries";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

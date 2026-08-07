@@ -14,6 +14,4 @@ component extends="schema-org.types.Reservation" accessors="true" {
 
     variables[ "@type" ] = "TaxiReservation";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

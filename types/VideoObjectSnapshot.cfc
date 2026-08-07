@@ -8,6 +8,4 @@ component extends="schema-org.types.VideoObject" accessors="true" {
 
     variables[ "@type" ] = "VideoObjectSnapshot";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

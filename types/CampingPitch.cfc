@@ -8,6 +8,4 @@ component extends="schema-org.types.Accommodation" accessors="true" {
 
     variables[ "@type" ] = "CampingPitch";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

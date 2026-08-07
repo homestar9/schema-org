@@ -8,6 +8,4 @@ component extends="schema-org.types.InvestmentOrDeposit" accessors="true" {
 
     variables[ "@type" ] = "BrokerageAccount";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

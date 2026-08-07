@@ -8,6 +8,4 @@ component extends="schema-org.types.ConsumeAction" accessors="true" {
 
     variables[ "@type" ] = "InstallAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

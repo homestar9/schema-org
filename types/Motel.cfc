@@ -8,6 +8,4 @@ component extends="schema-org.types.LodgingBusiness" accessors="true" {
 
     variables[ "@type" ] = "Motel";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

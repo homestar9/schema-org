@@ -8,6 +8,4 @@ component extends="schema-org.types.Event" accessors="true" {
 
     variables[ "@type" ] = "SocialEvent";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

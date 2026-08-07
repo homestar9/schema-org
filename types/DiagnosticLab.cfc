@@ -10,6 +10,4 @@ component extends="schema-org.types.MedicalOrganization" accessors="true" {
 
     variables[ "@type" ] = "DiagnosticLab";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.AggregateRating" accessors="true" {
 
     variables[ "@type" ] = "EmployerAggregateRating";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

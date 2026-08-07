@@ -8,6 +8,4 @@ component extends="schema-org.types.LearningResource" accessors="true" {
 
     variables[ "@type" ] = "Syllabus";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -36,6 +36,4 @@ Standards bodies should promote a standard prefix for the identifiers of propert
 
     variables[ "@type" ] = "PropertyValue";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

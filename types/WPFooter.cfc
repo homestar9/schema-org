@@ -8,6 +8,4 @@ component extends="schema-org.types.WebPageElement" accessors="true" {
 
     variables[ "@type" ] = "WPFooter";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.Quantity" accessors="true" {
 
     variables[ "@type" ] = "Distance";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

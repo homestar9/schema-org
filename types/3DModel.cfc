@@ -10,6 +10,4 @@ component extends="schema-org.types.MediaObject" accessors="true" {
 
     variables[ "@type" ] = "3DModel";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

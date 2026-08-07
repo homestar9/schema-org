@@ -133,6 +133,4 @@ To discourage over-use, and reflecting intial usecases, the property is expected
 
     variables[ "@type" ] = "Offer";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.FindAction" accessors="true" {
 
     variables[ "@type" ] = "DiscoverAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

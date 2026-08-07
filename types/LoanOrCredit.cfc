@@ -26,6 +26,4 @@ component extends="schema-org.types.FinancialProduct" accessors="true" {
 
     variables[ "@type" ] = "LoanOrCredit";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

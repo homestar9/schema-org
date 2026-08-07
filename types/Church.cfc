@@ -8,6 +8,4 @@ component extends="schema-org.types.PlaceOfWorship" accessors="true" {
 
     variables[ "@type" ] = "Church";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

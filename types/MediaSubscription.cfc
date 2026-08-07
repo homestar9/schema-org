@@ -12,6 +12,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "MediaSubscription";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

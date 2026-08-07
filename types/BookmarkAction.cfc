@@ -8,6 +8,4 @@ component extends="schema-org.types.OrganizeAction" accessors="true" {
 
     variables[ "@type" ] = "BookmarkAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

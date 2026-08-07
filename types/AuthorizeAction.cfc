@@ -10,6 +10,4 @@ component extends="schema-org.types.AllocateAction" accessors="true" {
 
     variables[ "@type" ] = "AuthorizeAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

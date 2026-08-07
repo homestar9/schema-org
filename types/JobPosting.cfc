@@ -83,6 +83,4 @@ Note: for historical reasons, any textual label and formal code provided as a li
 
     variables[ "@type" ] = "JobPosting";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -10,6 +10,4 @@ component extends="schema-org.types.DefinedTermSet" accessors="true" {
 
     variables[ "@type" ] = "CategoryCodeSet";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

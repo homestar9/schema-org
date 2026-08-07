@@ -47,10 +47,6 @@ component extends="schema-org.types.Product" accessors="true" {
 
     property name="payload" hint="The permitted weight of passengers and cargo, EXCLUDING the weight of the empty vehicle.\n\nTypical unit code(s): KGM for kilogram, LBR for pound\n\n* Note 1: Many databases specify the permitted TOTAL weight instead, which is the sum of [[weight]] and [[payload]]\n* Note 2: You can indicate additional information in the [[name]] of the [[QuantitativeValue]] node.\n* Note 3: You may also link to a [[QualitativeValue]] node that provides additional information using [[valueReference]].\n* Note 4: Note that you can use [[minValue]] and [[maxValue]] to indicate ranges.";
 
-    property name="productionDate" hint="The date of production of the item, e.g. vehicle.";
-
-    property name="purchaseDate" hint="The date the item, e.g. vehicle, was purchased by the current owner.";
-
     property name="seatingCapacity" hint="The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.\n\nTypical unit code(s): C62 for persons.";
 
     property name="speed" hint="The speed range of the vehicle. If the vehicle is powered by an engine, the upper limit of the speed range (indicated by [[maxValue]]) should be the maximum speed achievable under regular conditions.\n\nTypical unit code(s): KMH for km/h, HM for mile per hour (0.447 04 m/s), KNT for knot\n\n*Note 1: Use [[minValue]] and [[maxValue]] to indicate the range. Typically, the minimal value is zero.\n* Note 2: There are many different ways of measuring the speed range. You can link to information about how the given value has been determined using the [[valueReference]] property.";
@@ -87,7 +83,5 @@ component extends="schema-org.types.Product" accessors="true" {
 
 
     variables[ "@type" ] = "Vehicle";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

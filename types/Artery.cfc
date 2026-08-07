@@ -12,6 +12,4 @@ component extends="schema-org.types.Vessel" accessors="true" {
 
     variables[ "@type" ] = "Artery";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

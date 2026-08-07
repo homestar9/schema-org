@@ -8,6 +8,4 @@ component extends="schema-org.types.Project" accessors="true" {
 
     variables[ "@type" ] = "FundingAgency";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

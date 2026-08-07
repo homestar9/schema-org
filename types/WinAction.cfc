@@ -10,6 +10,4 @@ component extends="schema-org.types.AchieveAction" accessors="true" {
 
     variables[ "@type" ] = "WinAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

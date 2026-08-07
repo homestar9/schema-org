@@ -10,6 +10,4 @@ component extends="schema-org.types.LocalBusiness" accessors="true" {
 
     variables[ "@type" ] = "FinancialService";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

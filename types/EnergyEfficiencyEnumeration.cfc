@@ -8,6 +8,4 @@ component extends="schema-org.types.Enumeration" accessors="true" {
 
     variables[ "@type" ] = "EnergyEfficiencyEnumeration";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

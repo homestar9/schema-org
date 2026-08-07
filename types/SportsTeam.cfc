@@ -14,6 +14,4 @@ component extends="schema-org.types.SportsOrganization" accessors="true" {
 
     variables[ "@type" ] = "SportsTeam";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

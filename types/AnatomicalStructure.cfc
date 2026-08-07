@@ -24,6 +24,4 @@ component extends="schema-org.types.MedicalEntity" accessors="true" {
 
     variables[ "@type" ] = "AnatomicalStructure";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

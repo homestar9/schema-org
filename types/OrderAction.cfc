@@ -10,6 +10,4 @@ component extends="schema-org.types.TradeAction" accessors="true" {
 
     variables[ "@type" ] = "OrderAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

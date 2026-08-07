@@ -8,6 +8,4 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
 
     variables[ "@type" ] = "Periodical";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

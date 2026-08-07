@@ -53,6 +53,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "MerchantReturnPolicy";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

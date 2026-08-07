@@ -38,6 +38,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "Schedule";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

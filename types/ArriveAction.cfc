@@ -8,6 +8,4 @@ component extends="schema-org.types.MoveAction" accessors="true" {
 
     variables[ "@type" ] = "ArriveAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

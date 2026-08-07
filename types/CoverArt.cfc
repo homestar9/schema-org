@@ -8,6 +8,4 @@ component extends="schema-org.types.VisualArtwork" accessors="true" {
 
     variables[ "@type" ] = "CoverArt";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

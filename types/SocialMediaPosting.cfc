@@ -10,6 +10,4 @@ component extends="schema-org.types.Article" accessors="true" {
 
     variables[ "@type" ] = "SocialMediaPosting";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

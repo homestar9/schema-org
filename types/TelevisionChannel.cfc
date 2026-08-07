@@ -8,6 +8,4 @@ component extends="schema-org.types.BroadcastChannel" accessors="true" {
 
     variables[ "@type" ] = "TelevisionChannel";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

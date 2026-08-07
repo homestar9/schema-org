@@ -56,6 +56,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "SoftwareApplication";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -10,6 +10,4 @@ component extends="schema-org.types.TransferAction" accessors="true" {
 
     variables[ "@type" ] = "BorrowAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

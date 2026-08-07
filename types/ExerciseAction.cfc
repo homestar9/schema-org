@@ -34,6 +34,4 @@ component extends="schema-org.types.PlayAction" accessors="true" {
 
     variables[ "@type" ] = "ExerciseAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

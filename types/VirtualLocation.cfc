@@ -8,6 +8,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "VirtualLocation";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

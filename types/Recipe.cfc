@@ -28,6 +28,4 @@ component extends="schema-org.types.HowTo" accessors="true" {
 
     variables[ "@type" ] = "Recipe";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

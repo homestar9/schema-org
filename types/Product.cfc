@@ -154,6 +154,4 @@ The property values can be expressed either as unstructured text (repeated as ne
 
     variables[ "@type" ] = "Product";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

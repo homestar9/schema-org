@@ -14,6 +14,4 @@ component extends="schema-org.types.Vessel" accessors="true" {
 
     variables[ "@type" ] = "LymphaticVessel";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

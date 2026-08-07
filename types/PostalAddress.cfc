@@ -22,6 +22,4 @@ component extends="schema-org.types.ContactPoint" accessors="true" {
 
     variables[ "@type" ] = "PostalAddress";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalSign" accessors="true" {
 
     variables[ "@type" ] = "VitalSign";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

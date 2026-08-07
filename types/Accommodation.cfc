@@ -9,8 +9,6 @@ component extends="schema-org.types.Place" accessors="true" {
 
     property name="accommodationFloorPlan" hint="A floorplan of some [[Accommodation]].";
 
-    property name="amenityFeature" hint="An amenity feature (e.g. a characteristic or service) of the Accommodation. This generic property does not make a statement about whether the feature is included in an offer for the main accommodation or available at extra costs.";
-
     property name="bed" hint="The type of bed or beds included in the accommodation. For the single case of just one bed of a certain type, you use bed directly with a text.
       If you want to indicate the quantity of a certain kind of bed, use an instance of BedDetails. For more detailed information, use the amenityFeature property.";
 
@@ -39,8 +37,6 @@ Typical unit code(s): C62 for person.";
     property name="permittedUsage" hint="Indications regarding the permitted usage of the accommodation.";
 
     property name="petsAllowed" hint="Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.";
-
-    property name="tourBookingPage" hint="A page providing information on how to book a tour of some [[Place]], such as an [[Accommodation]] or [[ApartmentComplex]] in a real estate setting, as well as other kinds of tours as appropriate.";
 
     property name="yearBuilt" hint="The year an [[Accommodation]] was constructed. This corresponds to the [YearBuilt field in RESO](https://ddwiki.reso.org/display/DDW17/YearBuilt+Field). ";
 

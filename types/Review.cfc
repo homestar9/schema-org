@@ -35,6 +35,4 @@ The property values can be expressed either as unstructured text (repeated as ne
 
     variables[ "@type" ] = "Review";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalEnumeration" accessors="true" {
 
     variables[ "@type" ] = "MedicalImagingTechnique";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

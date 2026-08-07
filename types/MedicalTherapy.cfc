@@ -14,6 +14,4 @@ component extends="schema-org.types.TherapeuticProcedure" accessors="true" {
 
     variables[ "@type" ] = "MedicalTherapy";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

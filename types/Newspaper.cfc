@@ -8,6 +8,4 @@ component extends="schema-org.types.Periodical" accessors="true" {
 
     variables[ "@type" ] = "Newspaper";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -12,6 +12,4 @@ component extends="schema-org.types.Place" accessors="true" {
 
     variables[ "@type" ] = "TouristDestination";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

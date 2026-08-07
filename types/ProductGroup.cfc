@@ -14,6 +14,4 @@ component extends="schema-org.types.Product" accessors="true" {
 
     variables[ "@type" ] = "ProductGroup";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

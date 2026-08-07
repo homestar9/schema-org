@@ -14,8 +14,8 @@ component extends="schema-org.types.Intangible" accessors="true" {
 <p>[[QuantitativeValue]]: Use this for incentives based on price (either raw amount or percentage-based). For a raw amount example, 'You can claim $2,500 - $7,500 from the total cost of installation' would be represented as the following:</p>
     {
         '@type': 'QuantitativeValue',
-        “minValue�?: 2500,
-        “maxValue�?: 7500,
+        “minValue”: 2500,
+        “maxValue”: 7500,
         'unitCode': 'USD'
     }
 <p>[[QuantitivateValue]] can also be used for percentage amounts. In such cases, value is used to represent the incentive’s percentage, while maxValue represents a limit (if one exists) to that incentive. The unitCode should be 'P1' and the unitText should be '%', while valueReference should be used for holding the currency type. For example, 'You can claim up to 30% of the total cost of installation, up to a maximum of $7,500' would be:</p>
@@ -24,8 +24,8 @@ component extends="schema-org.types.Intangible" accessors="true" {
         'value': 30,
         'unitCode': 'P1',
         'unitText': '%',
-        “maxValue�?: 7500,
-        “valueReference�?: “USD�?
+        “maxValue”: 7500,
+        “valueReference”: “USD”
     }
 <p>[[UnitPriceSpecification]]: Use this for incentives that are based on amounts rather than price. For example, a net metering rebate that pays $10/kWh, up to $1,000:</p>
     {
@@ -121,7 +121,5 @@ Use Text for incentives that are limited based on other criteria, for example if
 
 
     variables[ "@type" ] = "FinancialIncentive";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

@@ -12,6 +12,4 @@ component extends="schema-org.types.Organization" accessors="true" {
 
     variables[ "@type" ] = "Airline";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

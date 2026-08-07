@@ -10,6 +10,4 @@ component extends="schema-org.types.Physician" accessors="true" {
 
     variables[ "@type" ] = "IndividualPhysician";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

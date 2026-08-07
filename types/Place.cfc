@@ -105,6 +105,4 @@ component extends="schema-org.types.Thing" accessors="true" {
 
     variables[ "@type" ] = "Place";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

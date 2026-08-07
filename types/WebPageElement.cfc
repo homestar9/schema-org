@@ -12,6 +12,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "WebPageElement";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

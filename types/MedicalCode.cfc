@@ -9,9 +9,13 @@ component extends="schema-org.types.MedicalIntangible" accessors="true" {
 
     property name="codingSystem" hint="The coding system, e.g. 'ICD-10'.";
 
+    property name="inCodeSet" hint="A [[CategoryCodeSet]] that contains this category code.";
+
+    property name="inDefinedTermSet" hint="A [[DefinedTermSet]] that contains this term.";
+
+    property name="termCode" hint="A code that identifies this [[DefinedTerm]] within a [[DefinedTermSet]].";
+
 
     variables[ "@type" ] = "MedicalCode";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

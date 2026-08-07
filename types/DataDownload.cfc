@@ -18,6 +18,4 @@ If there are several [[variableMeasured]] properties recorded for some given dat
 
     variables[ "@type" ] = "DataDownload";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

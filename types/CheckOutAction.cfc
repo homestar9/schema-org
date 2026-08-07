@@ -8,6 +8,4 @@ component extends="schema-org.types.CommunicateAction" accessors="true" {
 
     variables[ "@type" ] = "CheckOutAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

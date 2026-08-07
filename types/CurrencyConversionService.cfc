@@ -8,6 +8,4 @@ component extends="schema-org.types.FinancialProduct" accessors="true" {
 
     variables[ "@type" ] = "CurrencyConversionService";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

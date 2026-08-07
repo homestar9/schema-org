@@ -8,6 +8,4 @@ component extends="schema-org.types.Physician" accessors="true" {
 
     variables[ "@type" ] = "PhysiciansOffice";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

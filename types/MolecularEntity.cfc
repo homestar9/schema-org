@@ -26,6 +26,4 @@ component extends="schema-org.types.BioChemEntity" accessors="true" {
 
     variables[ "@type" ] = "MolecularEntity";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

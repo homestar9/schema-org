@@ -8,6 +8,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "Poster";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

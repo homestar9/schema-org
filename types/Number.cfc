@@ -8,6 +8,4 @@ component extends="schema-org.models.BaseType" accessors="true" {
 
     variables[ "@type" ] = "Number";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

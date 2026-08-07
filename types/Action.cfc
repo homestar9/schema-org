@@ -34,6 +34,4 @@ component extends="schema-org.types.Thing" accessors="true" {
 
     variables[ "@type" ] = "Action";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }
