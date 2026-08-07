@@ -280,6 +280,31 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 expect( result[ 1 ][ "ratingValue" ] ).toBe( 0 );
             });
 
+            it("can build a local business type with properties inherited from a second parent", function() {
+                // Plumber reaches Place only through LocalBusiness's second parent. Before the
+                // generator flattened those properties, this threw MethodNotFound, because
+                // populate() invokes every struct key as a setter and no setGeo() existed.
+                var result = model.Plumber( {
+                    "name": "Test Plumber",
+                    "telephone": "555-0100",
+                    "geo": {
+                        "@type": "GeoCoordinates",
+                        "latitude": 38.2903510,
+                        "longitude": -122.3054417
+                    }
+                } ).toJsonLd();
+
+                expect( isJson( result ) ).toBeTrue();
+
+                var node = deserializeJson( result )[ "@graph" ][ 1 ];
+
+                expect( node[ "@type" ] ).toBe( "Plumber" );
+                expect( node ).toHaveKey( "geo" );
+                expect( node.geo[ "@type" ] ).toBe( "GeoCoordinates" );
+                expect( node.geo.latitude ).toBe( 38.2903510 );
+                expect( node.geo.longitude ).toBe( -122.3054417 );
+            });
+
             it("calling get() is the same as calling toGraph()", function() {
                 var builder = model
                     .organization( function(o) {
