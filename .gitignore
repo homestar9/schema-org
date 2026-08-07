@@ -2,6 +2,9 @@
 .artifacts/**
 .tmp/**
 .DS_Store
+.vscode/**
+*.code-workspace
+
 
 # Engine + Secrets
 .env
@@ -19,3 +22,6 @@ modules/**
 
 # log files
 logs/**
+
+# local plan files
+plans/**
