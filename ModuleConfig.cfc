@@ -5,24 +5,24 @@
  */
 component {
 
-	// Module Properties
+	// Information used by ColdBox to register this module.
 	this.title 				= "schema-org";
 	this.author 			= "Angry Sam Productions, Inc.";
 	this.webURL 			= "https://www.angrysam.com";
 	this.description 		= "A ColdBox module for schema.org structured data";
 	this.version 			= "@build.version@+@build.number@";
 
-	// Model Namespace
+	// Models can be requested with names such as SchemaBuilder@schema-org.
 	this.modelNamespace		= "schema-org";
 
-	// CF Mapping
+	// Map the schema-org prefix to this module's folder.
 	this.cfmapping			= "schema-org";
 
-	// Dependencies
+	// This module does not require other ColdBox modules.
 	this.dependencies 		= [];
 
 	/**
-	 * Configure Module
+	 * Defines module settings before ColdBox registers the module.
 	 */
 	function configure(){
 		settings = {
@@ -31,14 +31,14 @@ component {
 	}
 
 	/**
-	 * Fired when the module is registered and activated.
+	 * Runs after ColdBox registers and activates the module.
 	 */
 	function onLoad(){
 
 	}
 
 	/**
-	 * Fired when the module is unregistered and unloaded
+	 * Runs after ColdBox unregisters and unloads the module.
 	 */
 	function onUnload(){
 

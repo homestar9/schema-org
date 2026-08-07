@@ -1,8 +1,8 @@
 component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 
-    // Resolve types/ from THIS file's own location. expandPath() would resolve against the
-    // executing template instead — the TestBox runner in tests/ — which pointed four levels above
-    // the repo, so directoryList() returned nothing and the per-type specs below never ran.
+    // Resolve types from this spec's location. expandPath() would start from the TestBox runner
+    // instead. That path can point outside the repository and cause the generated-type specs to run
+    // zero tests without reporting an error.
     typesDir = getDirectoryFromPath( getCurrentTemplatePath() ) & "../../../../types/";
 
 	testData = {
@@ -13,7 +13,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
         "dirList" = directoryList( typesDir, true, "query" )
     };
 
-    /*********************************** LIFE CYCLE Methods ***********************************/
+    // Test lifecycle
 
 	function beforeAll(){
 		super.beforeAll();
@@ -23,7 +23,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 		super.afterAll();
 	}
 
-	/*********************************** BDD SUITES ***********************************/
+	// Unit specs
 
 	function run(){
 		describe( "Base Type", function(){
@@ -56,8 +56,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
             });
 
             it( "finds the generated types on disk", function() {
-                // Guards the path above. Without this, a broken path silently turns the whole
-                // per-type suite below into zero specs and the run still reports green.
+                // Fail when the path above is wrong instead of reporting a successful run with zero
+                // generated-type specs.
                 expect( testData.dirList.recordCount ).toBeGT( 900 );
             } );
 
@@ -77,9 +77,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                                 expect( type ).toBeComponent();
                                 expect( invoke( type, "get@type" ) ).toBe( data.typeName );
 
-                                // The generator flattens properties from second and third parents
-                                // into the child, because CFML has single inheritance. It must not
-                                // redeclare anything the extends chain already declares.
+                                // CFML supports only one parent component. The generator copies
+                                // properties from additional Schema.org parents into the child. It
+                                // must not copy properties already provided by the CFML parent chain.
                                 var seen = {};
                                 for ( var propName in deepPropertyNames( getMetadata( type ) ) ) {
                                     expect( seen ).notToHaveKey(
@@ -105,9 +105,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
             } );
 
             it( "exposes properties reached only through a second parent", function() {
-                // LocalBusiness is a subclass of BOTH Organization and Place, but CFML can only
-                // extend one. Everything Place contributes - geo, openingHoursSpecification,
-                // latitude, longitude - used to be missing from LocalBusiness and every subtype.
+                // Schema.org defines LocalBusiness as a child of Organization and Place. CFML can
+                // extend only one component, so the generator must copy Place properties such as
+                // geo and openingHoursSpecification into LocalBusiness.
                 var plumber = createObject( "component", "schema-org.types.Plumber" ).init( {
                     "name": "Test Plumber",
                     "geo": {
@@ -132,8 +132,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
             } );
 
             it( "walks more than one level up a multi-parent chain", function() {
-                // Dentist extends MedicalOrganization but is also a LocalBusiness, which is itself
-                // multi-parent. Reaching Place from Dentist takes a transitive walk, not one hop.
+                // Dentist reaches Place through LocalBusiness. The generator must follow more than
+                // one parent level to include Place properties on Dentist.
                 var dentist = createObject( "component", "schema-org.types.Dentist" ).init( {
                     "name": "Test Dentist",
                     "geo": { "@type": "GeoCoordinates", "latitude": 38.2903510, "longitude": -122.3054417 },
@@ -162,8 +162,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
             } );
 
             it( "only registers a mapper on types that declare the property", function() {
-                // The generator used to accumulate mappers across the whole run, so 649 types
-                // carried an "_abstract" mapper for a property they never declared.
+                // A mapper belongs only to the type that declares the reserved property. Keeping
+                // mapper data between generated files would add _abstract to unrelated types.
                 var plumber = createObject( "component", "schema-org.types.Plumber" ).init();
                 prepareMock( plumber );
 
@@ -183,13 +183,15 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
         } );
 	}
 
-    /*********************************** HELPERS ***********************************/
+    // Test helpers
 
     /**
-     * Every property name declared on a component and on each of its ancestors, ancestors first.
-     * Mirrors BaseType.$getDeepProperties(), which is private.
+     * Returns property names from the complete component inheritance chain.
      *
-     * @meta Component metadata from getMetadata().
+     * Parent properties come first. This helper matches the private BaseType.$getDeepProperties()
+     * method so tests can detect duplicate declarations.
+     *
+     * @meta Component metadata returned by getMetadata().
      */
     private array function deepPropertyNames( required struct meta ) {
         var names = [];

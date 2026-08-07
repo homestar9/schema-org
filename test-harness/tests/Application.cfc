@@ -5,34 +5,34 @@
 */
 component{
 
-	// The name of the module used in cfmappings ,etc
+	// ColdBox uses this name to load and map the module under test.
 	request.MODULE_NAME = "schema-org";
-	// The directory name of the module on disk. Usually, it's the same as the module name
+	// This is the module's folder name inside the repository path.
 	request.MODULE_PATH = "schema-org";
 
-	// APPLICATION CFC PROPERTIES
+	// Configure the TestBox application.
 	this.name 				= "#request.MODULE_NAME# Testing Suite";
 	this.sessionManagement 	= true;
 	this.sessionTimeout 	= createTimeSpan( 0, 0, 15, 0 );
 	this.applicationTimeout = createTimeSpan( 0, 0, 15, 0 );
 	this.setClientCookies 	= true;
-	// Turn on/off white space management
+	// Use smart whitespace handling in test responses.
 	this.whiteSpaceManagement = "smart";
     this.enableNullSupport = shouldEnableFullNullSupport();
 
-	// Create testing mapping
+	// Map /tests to this test folder.
 	this.mappings[ "/tests" ] = getDirectoryFromPath( getCurrentTemplatePath() );
 
-	// The application root
+	// The parent of /tests is the test-harness application root.
 	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
 	this.mappings[ "/root" ]   			= rootPath;
 
-	// The module root path
+	// Map the repository root and module folder for ColdBox.
 	moduleRootPath = REReplaceNoCase( rootPath, "#request.MODULE_PATH#(\\|/)test-harness(\\|/)", "" );
 	this.mappings[ "/moduleroot" ] 				= moduleRootPath;
 	this.mappings[ "/#request.MODULE_NAME#" ] 	= moduleRootPath & "#request.MODULE_PATH#";
 
-	// ORM Definitions
+	// Optional ORM settings. Keep this code commented out unless a test needs a database.
 	/**
 	this.datasource = "coolblog";
 	this.ormEnabled = "true";
@@ -51,17 +51,17 @@ component{
 
 	function onRequestStart( required targetPage ){
 
-		// Set a high timeout for long running tests
+		// Generated-type tests can take several minutes on slower CFML engines.
 		setting requestTimeout="9999";
-		// New ColdBox Virtual Application Starter
+		// Create an isolated ColdBox application for this test request.
 		request.coldBoxVirtualApp = new coldbox.system.testing.VirtualApp( appMapping = "/root" );
 
-		// If hitting the runner or specs, prep our virtual app
+		// Start ColdBox only for TestBox runner and spec requests.
 		if ( getBaseTemplatePath().replace( expandPath( "/tests" ), "" ).reFindNoCase( "(runner|specs)" ) ) {
 			request.coldBoxVirtualApp.startup( true );
 		}
 
-		// ORM Reload for fresh results
+		// fwreinit restarts ColdBox and clears Lucee's cached pages.
 		if( structKeyExists( url, "fwreinit" ) ){
 			if( structKeyExists( server, "lucee" ) ){
 				pagePoolClear();

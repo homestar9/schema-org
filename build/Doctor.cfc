@@ -1,19 +1,17 @@
 /**
- * Checks whether this project is ready to release.
+ * Checks whether the project meets every release requirement.
  *
- * Run it with: box run-script release:check
+ * Run this task with: box run-script release:check
  *
- * It runs every check a release runs, plus a few more, and reports all of them instead of
- * stopping at the first problem. Each failure comes with the command that fixes it. Nothing
- * here changes anything, so it is always safe to run.
+ * The task runs all release checks and reports every problem in one pass. Each failure includes
+ * a suggested fix. The task reads project data but does not change it.
  */
 component {
 
 	/**
-	 * init
+	 * Loads the build settings and saves any configuration error for the final report.
 	 *
-	 * Loads the settings. A broken build.json is reported rather than thrown, because telling
-	 * someone their config is wrong is exactly this task's job.
+	 * A configuration error is not thrown here because this task must explain invalid settings.
 	 */
 	function init(){
 		variables.configError = "";
@@ -27,9 +25,7 @@ component {
 	}
 
 	/**
-	 * run
-	 *
-	 * Runs every check and prints a summary.
+	 * Runs all release checks and prints the final readiness summary.
 	 */
 	function run(){
 		print.line().boldLine( "Release readiness" ).line( repeatString( "-", 60 ) ).toConsole();
@@ -61,13 +57,12 @@ component {
 		}
 	}
 
-	/********************************************* CHECKS *********************************************/
+	// Release checks
 
 	/**
-	 * checkConfig
+	 * Prints the settings that the release will use.
 	 *
-	 * Reports the settings a release will use, so surprises show up here rather than mid
-	 * release.
+	 * Showing these values before release helps the user find an incorrect setting early.
 	 */
 	private function checkConfig(){
 		print.line().boldLine( "Settings" ).toConsole();
@@ -81,10 +76,7 @@ component {
 	}
 
 	/**
-	 * checkGit
-	 *
-	 * Checks git itself, the branch, uncommitted work, whether this version is already
-	 * released, and whether the remote can actually be reached.
+	 * Checks Git, the current branch, local changes, the release tag, and remote access.
 	 */
 	private function checkGit(){
 		print.line().boldLine( "Git" ).toConsole();
@@ -142,8 +134,7 @@ component {
 			report( true, "version", "#tagName# has not been released" );
 		}
 
-		// Reaching the remote is what catches a missing or rejected SSH key, which otherwise
-		// only shows up part way through a release.
+		// Contact the remote now so a missing or rejected SSH key does not stop the release later.
 		var remote = variables.config.execNative( "git", [ "ls-remote", "--exit-code", "origin", "HEAD" ] );
 		if ( remote.exitCode != 0 ) {
 			var hint = remote.output contains "publickey"
@@ -156,9 +147,7 @@ component {
 	}
 
 	/**
-	 * checkChangelog
-	 *
-	 * Checks the changelog exists and holds what a release needs.
+	 * Checks that the changelog exists and contains the required release sections.
 	 */
 	private function checkChangelog(){
 		print.line().boldLine( "Changelog" ).toConsole();
@@ -177,7 +166,7 @@ component {
 		var body    = fileRead( path );
 		var version = variables.config.version();
 
-		// A doubled ## in a CFML string means one literal #, so #### matches a "## " heading.
+		// CFML uses ## inside a string for one literal #. The pattern uses #### to match "## ".
 		if ( !reFindNoCase( "####\s*\[Unreleased\]", body ) ) {
 			report(
 				false,
@@ -204,9 +193,7 @@ component {
 	}
 
 	/**
-	 * checkTools
-	 *
-	 * Checks the outside tools a release needs, and only those it actually needs.
+	 * Checks each external publishing tool enabled in the build settings.
 	 */
 	private function checkTools(){
 		print.line().boldLine( "Tools" ).toConsole();
@@ -249,9 +236,7 @@ component {
 	}
 
 	/**
-	 * checkServer
-	 *
-	 * Checks the test server is answering, since the build runs the suite against it.
+	 * Checks that the test server answers before the build tries to run the suite.
 	 */
 	private function checkServer(){
 		print.line().boldLine( "Test server" ).toConsole();
@@ -289,17 +274,15 @@ component {
 		}
 	}
 
-	/********************************************* OUTPUT *********************************************/
+	// Report output
 
 	/**
-	 * report
+	 * Prints one check result and increases the problem count after a failure.
 	 *
-	 * Prints one result and counts the failures.
-	 *
-	 * @passed  Whether the check passed.
-	 * @label   What was checked.
-	 * @detail  What was found.
-	 * @fix     What to do about it, shown only on a failure.
+	 * @passed  True when the check passed.
+	 * @label   The name shown for the check.
+	 * @detail  The value or condition found by the check.
+	 * @fix     The suggested correction shown after a failure.
 	 */
 	private function report( required boolean passed, required string label, string detail = "", string fix = "" ){
 		if ( arguments.passed ) {
@@ -314,11 +297,9 @@ component {
 	}
 
 	/**
-	 * yesNo
+	 * Returns "yes" for true and "no" for false.
 	 *
-	 * Turns true and false into yes and no for reading.
-	 *
-	 * @value The value to show.
+	 * @value The Boolean value to display.
 	 */
 	private string function yesNo( required boolean value ){
 		return arguments.value ? "yes" : "no";

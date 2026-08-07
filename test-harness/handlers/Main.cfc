@@ -1,11 +1,10 @@
 ﻿/**
-* My Event Handler Hint
-*/
+ * Prepares the page details used by the sample Schema.org handler.
+ */
 component{
 
 	property name="schemaBuilder" inject="provider:SchemaBuilder@schema-org";
     
-    // Index
 	any function index( event,rc, prc ){
 		
         prc.canonicalUrl = event.getHTMLBaseURL();

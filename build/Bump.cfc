@@ -1,26 +1,22 @@
 /**
- * Raises the version and dates the changelog.
+ * Updates the package version and moves release notes into a dated changelog section.
  *
- * Run it with: box run-script bump:patch (or bump:minor, bump:major)
+ * Run this task with box run-script bump:patch, bump:minor, or bump:major.
  *
- * It does two things, so cutting a release is one command instead of hand editing:
- *   1. Raises the version in box.json.
- *   2. Moves everything under "## [Unreleased]" in the changelog into a new dated section for
- *      the new version, and leaves a fresh empty [Unreleased] behind.
+ * The task updates the version in box.json. It then moves the notes under "## [Unreleased]"
+ * into a dated section for the new version. The changelog keeps an empty [Unreleased] section
+ * for future notes.
  *
- * It does not commit, tag, or publish. You review the change and commit it yourself. The
- * checks that protect a release live in Release.cfc and run at release time.
+ * The task does not commit, tag, or publish. Review and commit the changes after the task finishes.
+ * Release.cfc runs the release safety checks later.
  *
- * First release: box.json may already hold the version you want to ship, so raising it would
- * skip a number. Use :level=none to date the notes as the current version without changing
- * box.json.
+ * For a first release, box.json may already contain the version being released. Use :level=none
+ * to date the current notes without changing that version.
  */
 component {
 
 	/**
-	 * init
-	 *
-	 * Loads the settings.
+	 * Loads the shared build settings.
 	 */
 	function init(){
 		variables.config = new BuildConfig( getDirectoryFromPath( getCurrentTemplatePath() ) );
@@ -29,15 +25,13 @@ component {
 	}
 
 	/**
-	 * run
+	 * Calculates the next version and moves the unreleased changelog notes.
 	 *
-	 * Raises the version and moves the changelog notes.
-	 *
-	 * @level  How much to raise. See the list in nextVersion(), or run with an unknown level to
-	 *         have them printed.
-	 * @preid  The prerelease label to use, such as beta or alpha. Only used by the pre levels.
-	 *         Defaults to beta when starting a prerelease.
-	 * @dryRun Show what would change without writing anything.
+	 * @level  The type of version change. nextVersion() lists the accepted values. An invalid
+	 *         value prints the complete list.
+	 * @preid  The alpha or beta label used for a prerelease level. A blank label becomes beta when
+	 *         the task starts a prerelease.
+	 * @dryRun Show the planned changes without writing files.
 	 */
 	function run( string level = "patch", string preid = "", boolean dryRun = false ){
 		var lvl = lCase( trim( arguments.level ) );
@@ -59,8 +53,8 @@ component {
 		var newVersion = ( lvl == "none" ) ? current : nextVersion( current, lvl, trim( arguments.preid ) );
 		var today      = dateFormat( now(), "yyyy-mm-dd" );
 
-		// Work out the new changelog before writing anything. A missing or empty [Unreleased]
-		// then stops the run cleanly, instead of leaving box.json raised and the changelog not.
+		// Build the new changelog before writing any files. A missing or empty [Unreleased] section
+		// can then stop the task without leaving box.json and the changelog on different versions.
 		var newChangelog = buildChangelog( newVersion, today );
 
 		if ( arguments.dryRun ) {
@@ -98,21 +92,17 @@ component {
 			.toConsole();
 	}
 
-	/********************************************* PRIVATE HELPERS *********************************************/
+	// Private helpers
 
 	/**
-	 * fail
+	 * Prints detailed guidance and then stops the task with a short error.
 	 *
-	 * Stops the task, printing guidance that spans several lines.
+	 * CommandBox error messages remove line breaks. Printing the guidance first keeps its layout.
+	 * error() receives only the one-line summary because it ends the task immediately.
 	 *
-	 * CommandBox's error() removes line breaks from its message, so anything longer than a
-	 * sentence arrives as one run-together block. The guidance is printed first, where it keeps
-	 * its shape, and error() is left with the single line that says what went wrong. That is
-	 * also why the list appears above the error rather than below it: error() ends the task.
-	 *
-	 * @summary One line saying what went wrong.
-	 * @detail  Lines of guidance to print first.
-	 * @heading A short label for the guidance.
+	 * @summary A one-line description of the failure.
+	 * @detail  The guidance lines printed before the error.
+	 * @heading The heading printed above the guidance.
 	 */
 	private function fail( required string summary, array detail = [], string heading = "What to do" ){
 		if ( arrayLen( arguments.detail ) ) {
@@ -126,21 +116,19 @@ component {
 	}
 
 	/**
-	 * levels
-	 *
-	 * The levels run() accepts, as a comma separated list.
+	 * Returns the comma-separated version levels accepted by run().
 	 */
 	private string function levels(){
 		return "major,minor,patch,prerelease,premajor,preminor,prepatch,none";
 	}
 
 	/**
-	 * parseVersion
+	 * Splits a version into major, minor, patch, prerelease, and build values.
 	 *
-	 * Splits a version into its parts. For 1.2.3-beta.4+build7 that is major 1, minor 2,
-	 * patch 3, prerelease "beta.4", and build "build7".
+	 * For example, 1.2.3-beta.4+build7 becomes major 1, minor 2, patch 3, prerelease
+	 * "beta.4", and build "build7".
 	 *
-	 * @version The version to split.
+	 * @version The Semantic Versioning string to split.
 	 */
 	private struct function parseVersion( required string version ){
 		var remaining = trim( arguments.version );
@@ -168,34 +156,32 @@ component {
 	}
 
 	/**
-	 * nextVersion
+	 * Calculates the next version for the requested version level.
 	 *
-	 * Works out the next version.
+	 * Semantic Versioning places 1.1.0-beta.3 before 1.1.0. Completing a prerelease therefore
+	 * removes the prerelease label instead of increasing the version again:
 	 *
-	 * The prerelease rules follow SemVer, where 1.1.0-beta.3 comes BEFORE 1.1.0. So finishing a
-	 * prerelease settles on the version it was leading up to rather than stepping past it:
-	 *
-	 *   1.1.0-beta.3  patch       -> 1.1.0        the version the beta was for
-	 *   1.1.0-beta.3  minor       -> 1.1.0        same, because the patch part is 0
-	 *   2.0.0-beta.3  major       -> 2.0.0        same, because minor and patch are 0
-	 *   1.1.2-beta.3  minor       -> 1.2.0        the beta was not for a minor release
-	 *   1.1.0         patch       -> 1.1.1        no prerelease, so just step up
+	 *   1.1.0-beta.3  patch       -> 1.1.0        completes the beta version
+	 *   1.1.0-beta.3  minor       -> 1.1.0        completes the beta because patch is 0
+	 *   2.0.0-beta.3  major       -> 2.0.0        completes the beta because minor and patch are 0
+	 *   1.1.2-beta.3  minor       -> 1.2.0        starts the next minor version
+	 *   1.1.0         patch       -> 1.1.1        increases a normal patch version
 	 *   1.1.0-beta.3  prerelease  -> 1.1.0-beta.4
 	 *   1.1.0         preminor    -> 1.2.0-beta.1
 	 *
-	 * @current The current version.
-	 * @level   One of the levels listed in levels().
-	 * @preid   The prerelease label. Empty means keep the current one, or use beta when starting.
+	 * @current The version being changed.
+	 * @level   A version-change level returned by levels().
+	 * @preid   The requested prerelease label. A blank value keeps an existing label or starts beta.
 	 */
 	private string function nextVersion( required string current, required string level, string preid = "" ){
 		var p      = parseVersion( arguments.current );
 		var hasPre = len( p.prerelease ) > 0;
-		// Starting a prerelease needs a label, so fall back to the common one.
+		// A new prerelease needs a label. Use "beta" when the caller does not provide one.
 		var label  = len( arguments.preid ) ? arguments.preid : "beta";
 
 		switch ( arguments.level ) {
 			case "major":
-				// Already a prerelease of this exact major release, so just settle on it.
+				// Remove the prerelease label when this version already targets the next major release.
 				if ( hasPre && p.minor == 0 && p.patch == 0 ) {
 					return "#p.major#.0.0";
 				}
@@ -230,14 +216,13 @@ component {
 	}
 
 	/**
-	 * nextPrerelease
+	 * Increases the number of an existing prerelease.
 	 *
-	 * Steps an existing prerelease forward: beta.3 becomes beta.4. A prerelease with no number
-	 * gets one, so 1.0.0-beta becomes 1.0.0-beta.1. Asking for a different label starts that
-	 * label at 1, so beta.3 with preid alpha becomes alpha.1.
+	 * beta.3 becomes beta.4, and beta becomes beta.1. A different requested label starts at 1.
+	 * For example, changing beta.3 to alpha produces alpha.1.
 	 *
-	 * @parsed The current version, already split up.
-	 * @preid  The wanted label, or empty to keep the current one.
+	 * @parsed The current version parts returned by parseVersion().
+	 * @preid  The requested label. A blank value keeps the current label.
 	 */
 	private string function nextPrerelease( required struct parsed, string preid = "" ){
 		var core = "#arguments.parsed.major#.#arguments.parsed.minor#.#arguments.parsed.patch#";
@@ -255,7 +240,7 @@ component {
 			);
 		}
 
-		// Take the trailing number off the label, when there is one.
+		// Separate a trailing counter from the prerelease label when a counter is present.
 		var segments = listToArray( arguments.parsed.prerelease, "." );
 		var label    = arguments.parsed.prerelease;
 		var counter  = 0;
@@ -265,7 +250,7 @@ component {
 			label = arrayToList( segments, "." );
 		}
 
-		// Switching label starts the count again, so alpha.7 to beta gives beta.1, not beta.8.
+		// A new label starts at 1. For example, changing alpha.7 to beta produces beta.1.
 		if ( len( arguments.preid ) && arguments.preid != label ) {
 			return "#core#-#arguments.preid#.1";
 		}
@@ -274,21 +259,17 @@ component {
 	}
 
 	/**
-	 * setBoxVersion
+	 * Replaces only the version value in box.json so all other formatting stays unchanged.
 	 *
-	 * Writes the new version into box.json, replacing only that one value so the rest of the
-	 * file keeps its formatting.
-	 *
-	 * @version The new version.
+	 * @version The version value to write into box.json.
 	 */
 	private function setBoxVersion( required string version ){
 		var boxPath = variables.config.repoPath( "box.json" );
 		var raw     = fileRead( boxPath );
 
-		// Find the first "version":"..." and replace what sits between the quotes. This splices
-		// the text rather than using a replacement pattern: a pattern like "\1" placed directly
-		// before a version starting with a digit reads as a different group number and eats
-		// characters.
+		// Replace the text between the quotes in the first "version" entry. Direct string splicing
+		// avoids a regular-expression problem where "\1" followed by a digit can be read as a
+		// different capture-group number.
 		var m = reFind( '("version"\s*:\s*")([^"]*)(")', raw, 1, true );
 		if ( !arrayLen( m.pos ) || m.pos[ 1 ] == 0 ) {
 			return error( "Could not find a ""version"" entry in box.json." );
@@ -299,17 +280,16 @@ component {
 	}
 
 	/**
-	 * buildChangelog
+	 * Moves the [Unreleased] notes into a dated section and returns the complete changelog.
 	 *
-	 * Returns the whole changelog with the [Unreleased] notes moved into a new dated section.
-	 * Stops the run when there is no [Unreleased] section or it holds nothing, so a release can
-	 * never go out with empty notes.
+	 * The task stops when the [Unreleased] section is missing or empty. This rule prevents a
+	 * release from being created without release notes.
 	 *
-	 * A note on hashes: in CFML a doubled ## in a string means one literal #. So the patterns
-	 * below use #### to match a two-hash "## " markdown heading.
+	 * CFML uses ## inside a string to represent one literal # character. The patterns below use
+	 * #### to match a two-character "## " Markdown heading.
 	 *
-	 * @version The version to date the section with.
-	 * @date    Today, as YYYY-MM-DD.
+	 * @version The version used in the new changelog heading.
+	 * @date    The heading date in YYYY-MM-DD format.
 	 */
 	private string function buildChangelog( required string version, required string date ){
 		var path = variables.config.repoPath( variables.s.changelog );
@@ -321,7 +301,7 @@ component {
 		}
 
 		var raw   = fileRead( path );
-		// Remember the line ending style so the rewrite keeps it.
+		// Preserve the changelog's existing line-ending style.
 		var crlf  = ( raw contains ( chr( 13 ) & chr( 10 ) ) );
 		var lf    = chr( 10 );
 		var lines = listToArray( replace( raw, chr( 13 ) & lf, lf, "all" ), lf, true );
@@ -339,7 +319,7 @@ component {
 			);
 		}
 
-		// The section runs until the next "## " heading, or the link list at the bottom.
+		// The section ends at the next level-two heading or at the reference-link list.
 		var endIdx = arrayLen( lines ) + 1;
 		for ( var i = unreleasedIdx + 1; i <= arrayLen( lines ); i++ ) {
 			if ( reFind( "^####\s", lines[ i ] ) || reFind( "^\[.+\]:\s*http", lines[ i ] ) ) {
@@ -348,7 +328,7 @@ component {
 			}
 		}
 
-		// Take the notes and trim the blank lines off both ends.
+		// Collect the notes without leading or trailing blank lines.
 		var body = [];
 		for ( var i = unreleasedIdx + 1; i <= endIdx - 1; i++ ) {
 			body.append( lines[ i ] );
@@ -363,8 +343,8 @@ component {
 			return error( "The ""#### [Unreleased]"" section in #variables.s.changelog# is empty. Write the release notes first." );
 		}
 
-		// Rebuild: everything up to the now empty [Unreleased] heading, the new dated section
-		// with the notes, then whatever followed.
+		// Keep the empty [Unreleased] heading first. Add the new dated section next, followed by
+		// the rest of the original changelog.
 		var out = [];
 		for ( var i = 1; i <= unreleasedIdx; i++ ) {
 			out.append( lines[ i ] );

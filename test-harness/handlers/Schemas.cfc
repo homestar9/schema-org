@@ -6,9 +6,9 @@ component {
 
         var baseUrl = event.getHTMLBaseURL();
         
-        // In your test handler:
+        // Build the complete JSON-LD graph used by the test page.
         prc.schema = schemaBuilder
-            // Webpage Schema
+            // Describe the current web page.
             .webpage( function( o ) {
                 o.id( prc.canonicalUrl & "##webpage" )
                     .name( prc.pageTitle  )
@@ -20,7 +20,7 @@ component {
                     .image( { "@id": baseUrl & "##logo" } );
             } )
             
-            // Website Schema
+            // Describe the website that contains the current page.
             .website( function( o ) {
                 o.id( baseUrl & "##website" )
                     .name( "Starfleet Command Official Website" )
@@ -32,7 +32,7 @@ component {
             } )
         
             .organization(function(s) {
-                // Top‐level Organization fields
+                // Set the main organization details.
                 s.id( baseUrl & "##organization" )
                     .name("Starfleet Command")
                     .alternateName("SF Command")
@@ -40,7 +40,7 @@ component {
                     .foundingDate( "2161" )
                     .description( "Starfleet is the deep-space exploratory and defense arm of the United Federation of Planets." )
 
-                // Nested ImageObject for "logo"
+                // Create the logo as a nested ImageObject.
                 .logo(
                     s.new("ImageObject", function(i) {
                         i.id( baseUrl & "##logo")
@@ -53,10 +53,10 @@ component {
                     })
                 )
 
-                // Reference the same logo as "image" by @id only
+                // Reuse the logo as the organization image by referencing its @id.
                 .image( { "@id": baseUrl & "##logo" } )
 
-                // Nested PostalAddress for "address"
+                // Create the organization's address as a nested PostalAddress.
                 .address(
                     s.new("PostalAddress", function( a ) {
                         a.streetAddress("Federation HQ, 1 Unity Plaza")
@@ -67,7 +67,7 @@ component {
                     })
                 )
 
-                // Array of ContactPoint objects
+                // ContactPoint accepts an array because an organization can have several contacts.
                 .contactPoint( [
                     s.new("ContactPoint", function(c) {
                         c.telephone("+1-800-STARFLEET")
@@ -78,14 +78,14 @@ component {
                     })
                 ] )
 
-                // Multiple sameAs URLs
+                // sameAs links this organization to its profiles on other websites.
                 .sameAs( [
                     "https://www.facebook.com/StarfleetOfficial/",
                     "https://www.linkedin.com/company/starfleet-command/"
                 ] );
             } )
 
-            // Add Creative Work Schema because it uses an ACF reserved keyword
+            // CreativeWork verifies the safe _abstract setter for the reserved word "abstract".
             .creativeWork( function( o ) {
                 o.id( baseUrl & "##creativeWork" )
                     .name( "Star Trek" )
