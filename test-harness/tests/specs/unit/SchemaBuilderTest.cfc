@@ -27,7 +27,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
         }
     }
     
-    /*********************************** LIFE CYCLE Methods ***********************************/
+    // Test lifecycle
 
 	function beforeAll(){
 		super.beforeAll();
@@ -38,7 +38,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 		super.afterAll();
 	}
 
-	/*********************************** BDD SUITES ***********************************/
+	// Unit specs
 
 	function run(){
 		describe( "Schema Builder", function(){
@@ -77,7 +77,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                     } );
                 var result = builder.toArray();
 
-                // Filter for organization
                 expect( result.len() ).toBe( 2 );
                 expect( result[1]["@type"] ).toBe( "Organization" );
                 expect( result[1].name ).toBe( data.valid.organization.name );
@@ -89,8 +88,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 
             it( "can create a schema that uses and maps an ACF reserved keyword", function() {
                 var builder = model.creativeWork( function( cw ) {
+                    // "abstract" is reserved in Adobe ColdFusion.
                     cw.name( data.valid.creativeWork.name )
-                        ._abstract( data.valid.creativeWork.abstract ); // workaround for ACF reserved keyword
+                        ._abstract( data.valid.creativeWork.abstract );
                 } );
                 var result = builder.toArray();
 
@@ -226,7 +226,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 expect( result.len() ).toBe( 2 );
                 expect( result[ 1 ][ "@type" ] ).toBe( "Organization" );
                 expect( result[ 2 ][ "@type" ] ).toBe( "FAQPage" );
-                // raw nodes pass through verbatim, untouched by memento processing
+                // Raw nodes stay unchanged because they are already plain data.
                 expect( result[ 2 ][ "mainEntity" ][ 1 ][ "name" ] ).toBe( "Is this a test?" );
             });
 
@@ -246,9 +246,10 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
                 } ).toJsonLd();
 
                 expect( isJson( result ) ).toBeTrue();
-                // No raw "<" can survive, so </script>, <!-- and <script are all impossible to emit.
+                // Removing every literal < prevents user data from creating HTML control text such
+                // as </script>, <!--, or <script inside the surrounding script element.
                 expect( result ).notToInclude( "<" );
-                // Escaped, not dropped: the value round-trips back to the original markup.
+                // The Unicode escape preserves the original value when the JSON is parsed.
                 expect( deserializeJson( result )[ "@graph" ][ 1 ][ "text" ] ).toBe( "Before </script><script>alert(1)</script> after" );
             });
 
@@ -281,9 +282,8 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
             });
 
             it("can build a local business type with properties inherited from a second parent", function() {
-                // Plumber reaches Place only through LocalBusiness's second parent. Before the
-                // generator flattened those properties, this threw MethodNotFound, because
-                // populate() invokes every struct key as a setter and no setGeo() existed.
+                // Plumber reaches Place through an additional parent of LocalBusiness. The generator
+                // must copy Place properties so populate() can find a setGeo() method.
                 var result = model.Plumber( {
                     "name": "Test Plumber",
                     "telephone": "555-0100",

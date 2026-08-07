@@ -1,28 +1,24 @@
 /**
- * Runs the whole test suite on every engine, one after another.
+ * Runs the complete test suite on each configured CFML engine.
  *
- * Run it with: box run-script test:engines
+ * Run this task with: box run-script test:engines
  *
- * Do this before a release. It is deliberately not part of the release itself: an engine that
- * fails to start should not stop a publish, and the release already runs the suite once on
- * whichever engine is up.
+ * Run this task before a release. The release process does not run this task because an engine
+ * startup problem should not block publishing. The release still runs the suite on the active engine.
  *
- * Every engine shares the same port, so this runs strictly in order: stop everything, start
- * one engine, wait for it to answer, run the suite, stop it, move to the next. Expect it to
- * take a while. The first run of an engine also downloads it, which takes longer still.
+ * All engines share one port, so the task tests them in order. It stops all servers, starts one
+ * engine, waits for the server, runs the suite, and stops that engine before starting the next.
+ * A first run may take longer because CommandBox must download the engine.
  *
- * Every engine gets its turn even when an earlier one fails, so one broken engine never hides
- * the others. The end of the run prints a line per engine, and the task still exits with an
- * error if any of them failed.
+ * A failed engine does not prevent the remaining engines from running. The final report shows one
+ * result per engine. The task exits with an error when any engine fails.
  *
- * List your engines in build/build.json.
+ * Configure the engine list in build/build.json.
  */
 component {
 
 	/**
-	 * init
-	 *
-	 * Loads the settings.
+	 * Loads the shared build settings.
 	 */
 	function init(){
 		variables.config = new BuildConfig( getDirectoryFromPath( getCurrentTemplatePath() ) );
@@ -31,11 +27,10 @@ component {
 	}
 
 	/**
-	 * run
+	 * Tests each engine in order and prints a complete result report.
 	 *
-	 * Runs the suite on each engine in turn. Every engine gets its turn even when an earlier one
-	 * fails. Prints a line per engine at the end and errors out if any of them failed, so a
-	 * failure still stops CI and the release. Leaves every server stopped either way.
+	 * Every engine runs even after a failure. The task returns an error when any engine fails so
+	 * continuous integration can detect the failure. All configured servers are stopped at the end.
 	 */
 	function run(){
 		if ( !arrayLen( variables.s.engines ) ) {
@@ -57,7 +52,7 @@ component {
 		var results = [];
 		var started = getTickCount();
 
-		// Only one server can hold the port, and we do not know which one is up.
+		// Stop all configured servers because only one server can use the shared port.
 		stopAllEngines();
 
 		for ( var engine in variables.s.engines ) {
@@ -108,21 +103,19 @@ component {
 		return report( results, started );
 	}
 
-	/********************************************* PRIVATE HELPERS *********************************************/
+	// Private helpers
 
 	/**
-	 * startEngine
+	 * Starts one engine and returns a struct with ok and reason values.
 	 *
-	 * Starts one engine's server. Returns { ok, reason } rather than stopping the run, so the
-	 * sweep can record the failure and move on to the next engine.
+	 * Returning a result instead of stopping the task lets the remaining engines run after a failure.
 	 *
-	 * @engine     The engine entry from build.json.
-	 * @engineName The name to show.
+	 * @engine     The engine settings from build.json.
+	 * @engineName The engine name shown in status messages.
 	 */
 	private struct function startEngine( required struct engine, required string engineName ){
-		// Make sure the port is actually free first. Stopping a server returns before the old
-		// process lets go of the port, and starting the next one then fails for a reason that
-		// has nothing to do with the engine.
+		// A stopped server may keep the port for a short time. Wait for the port so the next engine
+		// is not blamed for a conflict caused by the previous server.
 		waitForPortToFree( arguments.engineName );
 
 		var startFailed = false;
@@ -148,8 +141,7 @@ component {
 				.yellowLine( "  box server start serverConfigFile=#arguments.engine.configFile#" )
 				.line()
 				.toConsole();
-			// The start may have got far enough to hold the port. Clear it, or the next
-			// engine in the sweep fails for a reason that has nothing to do with it.
+			// A failed startup may still hold the port. Stop the server before testing the next engine.
 			stopEngine( arguments.engine.configFile );
 			return {
 				"ok"     : false,
@@ -161,13 +153,12 @@ component {
 	}
 
 	/**
-	 * waitForPortToFree
+	 * Waits until the previous server stops answering on the shared test port.
 	 *
-	 * Waits until nothing answers on the test port, so the next engine is not started while the
-	 * last one is still letting go of it. Gives up after a short wait and lets the start attempt
-	 * produce the real error.
+	 * The method gives up after a short wait. The next server command can then report the actual
+	 * port conflict if the old server still owns the port.
 	 *
-	 * @engineName The engine about to start, for the message.
+	 * @engineName The engine name shown while the task waits.
 	 */
 	private function waitForPortToFree( required string engineName ){
 		var probeUrl = variables.config.probeUrl();
@@ -200,14 +191,13 @@ component {
 	}
 
 	/**
-	 * warmUp
+	 * Waits for the site to answer before running tests on an engine.
 	 *
-	 * Waits until the site answers, so the suite never runs against a server that is still
-	 * starting up. A half-started app produces failures that look real but are not. Returns
-	 * { ok, reason } so the sweep can record the failure and move on to the next engine.
+	 * Tests against a partly started application can produce false failures. The returned ok and
+	 * reason values let the task record a startup failure and continue with the next engine.
 	 *
-	 * @engine     The engine entry from build.json.
-	 * @engineName The name to show.
+	 * @engine     The engine settings from build.json.
+	 * @engineName The engine name shown in status messages.
 	 */
 	private struct function warmUp( required struct engine, required string engineName ){
 		var attempts = variables.s.warmup.attempts;
@@ -231,7 +221,7 @@ component {
 			} catch ( any e ) {
 				lastStatus = 0;
 			}
-			// Anything in the 200s or 300s means the site answered.
+			// Any HTTP status from 200 through 399 confirms that the server answered.
 			if ( lastStatus >= 200 && lastStatus < 400 ) {
 				print.greenLine( "#arguments.engineName# is up (status #lastStatus#)." ).toConsole();
 				return { "ok" : true, "reason" : "" };
@@ -253,10 +243,9 @@ component {
 	}
 
 	/**
-	 * stopAllEngines
+	 * Stops every configured engine and ignores stop failures.
 	 *
-	 * Stops every listed engine, ignoring failures. At most one is running, and stopping one
-	 * that is not running only prints a complaint.
+	 * Only one engine should be running. CommandBox may still print a message for the others.
 	 */
 	private function stopAllEngines(){
 		print.blueLine( "Stopping any running server..." ).toConsole();
@@ -266,29 +255,26 @@ component {
 	}
 
 	/**
-	 * stopEngine
+	 * Stops one server and ignores failures.
 	 *
-	 * Stops one server quietly. A failure here never matters: either it was not running, or
-	 * the next start will complain about the port anyway.
+	 * A failure means the server was already stopped or the next startup will report the port problem.
 	 *
-	 * @configFile The server json file for the engine to stop.
+	 * @configFile The server JSON file for the engine being stopped.
 	 */
 	private function stopEngine( required string configFile ){
 		try {
 			command( "server stop" ).params( serverConfigFile = arguments.configFile ).run();
 		} catch ( any e ) {
-			// Not running, nothing to do.
+			// The server may already be stopped.
 		}
 	}
 
 	/**
-	 * recordFailure
+	 * Records an engine failure and prints a one-line reason.
 	 *
-	 * Builds the result entry for an engine that failed and prints the one-line reason.
-	 *
-	 * @engineName  The name to show.
-	 * @engineStart The tick count from when this engine's turn began.
-	 * @reason      Why it failed, in a few words.
+	 * @engineName  The engine name shown in the result.
+	 * @engineStart The tick count recorded before this engine started.
+	 * @reason      A short explanation of why the engine failed.
 	 */
 	private struct function recordFailure( required string engineName, required numeric engineStart, required string reason ){
 		var minutes = numberFormat( ( getTickCount() - arguments.engineStart ) / 60000, "0.9" );
@@ -302,13 +288,12 @@ component {
 	}
 
 	/**
-	 * report
+	 * Prints one result per engine and returns an error when any engine failed.
 	 *
-	 * Prints a line per engine and ends the task. Errors out when any engine failed, so the
-	 * exit code still says the sweep was not clean.
+	 * The error gives continuous integration a failing exit code.
 	 *
-	 * @results One entry per engine, in the order they ran.
-	 * @started The tick count from when the whole sweep began.
+	 * @results One result per engine in execution order.
+	 * @started The tick count recorded before the first engine started.
 	 */
 	private function report( required array results, required numeric started ){
 		var totalMinutes = numberFormat( ( getTickCount() - arguments.started ) / 60000, "0.9" );
@@ -342,17 +327,14 @@ component {
 	}
 
 	/**
-	 * fail
+	 * Prints detailed guidance and then stops the task with a short error.
 	 *
-	 * Stops the task, printing guidance that spans several lines.
+	 * CommandBox error messages remove line breaks. Printing the guidance first keeps its layout.
+	 * error() receives only the one-line summary because it ends the task immediately.
 	 *
-	 * CommandBox's error() removes line breaks from its message, so anything longer than a
-	 * sentence arrives as one run-together block. The guidance is printed first, where it keeps
-	 * its shape, and error() is left with the single line that says what went wrong.
-	 *
-	 * @summary One line saying what went wrong.
-	 * @detail  Lines of guidance to print first.
-	 * @heading A short label for the guidance.
+	 * @summary A one-line description of the failure.
+	 * @detail  The guidance lines printed before the error.
+	 * @heading The heading printed above the guidance.
 	 */
 	private function fail( required string summary, array detail = [], string heading = "What to do" ){
 		if ( arrayLen( arguments.detail ) ) {

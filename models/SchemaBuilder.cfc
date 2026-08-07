@@ -3,8 +3,7 @@ component
 {
 
     /**
-     * constructor
-     * Initializes the SchemaBuilder with an empty schemas array.
+     * Initializes the builder with an empty list of Schema.org nodes.
      */
     function init() {
         variables.schemas = [];
@@ -12,13 +11,13 @@ component
     }
     
     /**
-     * onMissingMethod
-     * Handles calls to methods that do not exist in the SchemaBuilder.
-     * It attempts to create a schema object with the given name and arguments.
-     * If successful, it appends the created object to the schemas array.
-     * If not, it throws a MethodNotFound exception
-     * @missingMethodName The name of the missing method that was called.
-     * @missingMethodArguments The arguments that were passed to the missing method.
+     * Treats an unknown method name as a Schema.org type name.
+     *
+     * A matching type is created and added to the graph. A MethodNotFound error is thrown when
+     * no generated type has that name.
+     *
+     * @missingMethodName The possible Schema.org type name.
+     * @missingMethodArguments The values used to initialize the generated type.
      */
     function onMissingMethod( required missingMethodName, required missingMethodArguments ) {
         
@@ -33,16 +32,15 @@ component
     }
 
     /**
-     * tryCreatingObject
-     * Attempts to create a schema object of the given type with the provided arguments.
-     * If the type is invalid or the creation fails, it returns null.
+     * Creates a generated Schema.org type and passes the provided arguments to its init method.
      *
-     * @type   The type of schema object to create (e.g., "WebPage", "Organization").
-     * @args   A struct of arguments to pass to the object's init method.
+     * Returns null when no generated component has the requested type name. Other errors are rethrown.
+     *
+     * @type The Schema.org type name, such as "WebPage" or "Organization".
+     * @args The arguments passed to the generated type's init method.
      */
     function tryCreatingObject( required string type, struct args = {} ) {
         try {
-            // Attempt to create the object with the given type and args
             return createObject( "component", "schema-org.types.#type#" ).init( argumentCollection = args );
         } catch ( expression e ) {
             
@@ -56,13 +54,11 @@ component
     }
 
     /**
-     * addNode
-     * Appends a pre-built schema node (a plain struct, typically containing an "@type" key)
-     * to the builder verbatim. Use this when another library or service has already produced
-     * a finished node struct and you want it to ride along in this builder's graph next to
-     * the types built through the dynamic type methods.
+     * Adds a completed schema node struct to the graph without changing it.
      *
-     * @node A struct representing one schema.org node (e.g. { "@type": "FAQPage", ... }).
+     * Use this method when another library or service already created the Schema.org data.
+     *
+     * @node A complete Schema.org node struct, such as { "@type": "FAQPage", ... }.
      */
     function addNode( required struct node ) {
         variables.schemas.append( arguments.node );
@@ -70,24 +66,23 @@ component
     }
 
     /**
-     * raw
-     * Alias for addNode().
+     * Adds a completed schema node by calling addNode().
      *
-     * @node A struct representing one schema.org node.
+     * @node A complete Schema.org node struct.
      */
     function raw( required struct node ) {
         return addNode( arguments.node );
     }
 
     /**
-     * When is a useful helper method that introduces if / else control flow without breaking chainability.
-     * When the `condition` is true, the `onTrue` callback is triggered.  
-     * If the `condition` is false and an `onFalse` callback is passed, it is triggered.  Otherwise, the builder is returned.
-     * Inspired and stolen from: Elpete's QB (https://github.com/coldbox-modules/qb/)
+     * Runs one of two callbacks and keeps the builder chain active.
      *
-     * @condition       A boolean condition that if true will trigger the `onTrue` callback. If not true, the `onFalse` callback will trigger if it was passed. Otherwise, the query is returned unmodified.
-     * @onTrue          A closure that will be triggered if the `condition` is true.
-     * @onFalse         A closure that will be triggered if the `condition` is false.
+     * A true condition runs onTrue. A false condition runs onFalse when that callback is provided.
+     * This method is based on the when() helper in ColdBox QB.
+     *
+     * @condition The value that selects which callback runs.
+     * @onTrue    The callback to run when condition is true.
+     * @onFalse   The optional callback to run when condition is false.
      */
     public function when(
         required boolean condition,
@@ -109,37 +104,30 @@ component
     }
 
     /**
-     * get
-     * Returns the current state of the SchemaBuilder as a graph.
-     * This is the main method to retrieve the built schema.
+     * Returns the current Schema.org graph as a struct.
      */
     struct function get() {
         return this.toGraph();
     }
 
     /**
-     * render
-     * Returns the schema as a script tag containing JSON-LD.
-     * This is useful for embedding the schema in HTML pages.
+     * Returns an HTML script element containing the JSON-LD graph.
      */
     string function render() {
         return this.toScript();
     }
     
     /**
-     * toArray
-     * Converts the schemas array to an array of mementos.
-     * Each schema object is converted to its memento representation.
-     * Raw node structs added via addNode() pass through as-is.
+     * Returns every graph node as plain data that can be serialized.
+     *
+     * A generated type becomes a memento, which is its plain struct form. Raw node structs added
+     * through addNode() or raw() stay unchanged.
      */
     array function toArray() {
         return schemas.map( function( schema ) {
-            // Distinguish built type components (which carry getMemento(), inherited from BaseType)
-            // from raw node structs added via addNode()/raw() (which do not). A capability check is
-            // used rather than isObject(): some engines (notably BoxLang) do not report a component
-            // instance as an object here, which would silently leak an unserialized type object into
-            // the graph. This matches the discriminator BaseType.getMemento() already uses on nested
-            // relationships.
+            // Generated types inherit getMemento() from BaseType, while raw structs do not. Check
+            // for that method instead of using isObject(). BoxLang may not report a component as an
+            // object here, which would leave an unserialized component in the graph.
             return ( !isSimpleValue( schema ) && structKeyExists( schema, "getMemento" ) )
                 ? schema.getMemento()
                 : schema;
@@ -147,10 +135,9 @@ component
     }
 
     /**
-     * toGraph
-     * Converts the schemas array to a graph format.
-     * This is an ordered struct with a context and an array of schemas, so
-     * "@context" reliably serializes before "@graph".
+     * Returns an ordered JSON-LD graph containing @context and the node array.
+     *
+     * The ordered struct ensures that @context is serialized before @graph on every engine.
      */
     struct function toGraph() {
         var graph = structNew( "ordered" );
@@ -160,28 +147,25 @@ component
     }
 
     /**
-     * toJsonLd
-     * Serializes the schema to JSON-LD format.
-     * This is useful for embedding the schema in HTML pages.
-     * Escapes "<" as < (still valid JSON, byte-identical once parsed) so no payload can emit a
-     * literal "</script>", "<!--" or "<script" to break out of, or hijack, the surrounding <script>
-     * element. Only "<" needs escaping: inside a <script> element HTML entities are not decoded, so
-     * ">" and "&" are inert and left readable (schema.org URLs routinely carry "&" in query strings).
-     * Escaping just "</" — the previous behavior — left the "<!--<script" double-escape breakout open.
-     * @return A string containing the JSON-LD representation of the schema.
+     * Serializes the graph as JSON-LD that is safe to place inside an HTML script element.
+     *
+     * Every less-than sign becomes the JSON Unicode escape \u003c. The parsed JSON value stays the
+     * same, but user data cannot create </script>, <!--, or <script text that changes the surrounding
+     * HTML. Greater-than signs and ampersands are safe inside a script element and stay readable.
+     * Escaping only </ would not block a <!--<script sequence.
+     *
+     * @return The serialized JSON-LD graph.
      */
     string function toJsonLd() {
-        // chr( 92 ) is the backslash; built this way because CFML does not interpret backslash escapes
-        // in string literals, so "bs & 'u003c'" yields the literal < a JSON parser reads as "<".
+        // CFML does not treat a backslash as an escape character inside a string. Build \u003c from
+        // the backslash character code so the serialized JSON contains the required Unicode escape.
         var bs = chr( 92 );
         return replace( serializeJson( this.toGraph() ), "<", bs & "u003c", "all" );
     }
 
     /**
-     * toScript
-     * Returns the schema as a script tag containing JSON-LD.
-     * This is useful for embedding the schema in HTML pages.
-     * @return A string containing the script tag with JSON-LD.
+     * Wraps the serialized JSON-LD in an HTML script element.
+     * @return The HTML script element containing the JSON-LD graph.
      */
     string function toScript() {
         return '<script type="application/ld+json">' & toJsonLd() & '</script>';

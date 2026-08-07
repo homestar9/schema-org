@@ -7,19 +7,17 @@ component
     property name="@id";
 
 
-    variables._mappers = {}; // mappers for reserved keywords
+    variables._mappers = {}; // Maps safe CFML property names back to reserved Schema.org names.
     
     /**
-     * Init
-     * Initializes the BaseType with data.
+     * Initializes this Schema.org type from a callback or a struct of property values.
      * 
-     * @data (optional) The data to initialize the BaseType with. This can be a closure, custom function, or a struct of properties.
+     * @data A closure, custom function, or struct used to set the initial property values.
      */
     BaseType function init( any data={} ) {
-        // if the data is a closure or custom function, invoke it with this as the context
+        // A callback receives this type so the caller can set properties with chained methods.
         if( isClosure( data ) || isCustomFunction( data ) ) {
             data( this );
-        // else if it's a struct, populate this object with the data
         } else if( isStruct( data ) ) {
             populate( data );
         } else {
@@ -30,9 +28,9 @@ component
     }
 
     /**
-     * Set Id (alias for set@id)
+     * Sets the Schema.org @id value without requiring a method name that contains @.
      * 
-     * @value The value to set as the ID of the object.
+     * @value The Schema.org identifier to store in @id.
      */
     function setId( required string value ) {
         variables["@id"] = value;
@@ -40,7 +38,7 @@ component
     }
 
     /**
-     * getId (alias for get@id)
+     * Returns the Schema.org @id value without requiring a method name that contains @.
      */
     function getId() {
         return variables["@id"];
@@ -48,7 +46,6 @@ component
 
 
     function populate( struct data ) {
-        // Loop through the data struct and set properties
         for ( var key in data ) {
             invoke( this, key, [ data[ key ] ] );
         }
@@ -57,13 +54,13 @@ component
 
 
     /**
-     * New
-     * Instantiates a new type object, intitalizes, and returns it.
-     * Use this when you need a nested child object of a type.
-     * You don't want to use the builder for this because the builder is for creating the top-level schema chain 
-     * itself, not for instantiating objects.
-     * @typeName The name of the type to instantiate, e.g. "Thing", "Person", etc.
-     * @data (optional) The data to initialize the type with. This can be a closure, custom function, or a struct of properties.
+     * Creates and initializes a Schema.org type for use as a nested object.
+     *
+     * SchemaBuilder adds objects to the top-level graph. This method creates a child object without
+     * adding the child to that graph.
+     *
+     * @typeName The Schema.org type name, such as "Thing" or "Person".
+     * @data A closure, custom function, or struct used to set the initial property values.
      */
     BaseType function new( required string typeName, any data={} ) {
         return createObject( "component", "schema-org.types.#typeName#" ).init( arguments.data );
@@ -71,9 +68,10 @@ component
 
 
     /**
-     * onMissingMethod
-     * Handles missing methods by attempting to set an attribute with the same name as the missing method.
-     * If the method name starts with "set", it will ignore it and not attempt to set an attribute.
+     * Treats an unknown method as a fluent property setter when a matching setter exists.
+     *
+     * A missing method whose name starts with "set" is not retried. This rule prevents an unknown
+     * setter from being treated as a property name.
      */
     function onMissingMethod( required missingMethodName, required missingMethodArguments ) {
         
@@ -82,36 +80,32 @@ component
 			return result;
 		}
         
-        // A raw BaseType has no "@type" (only concrete generated types set it), so guard the read:
-        // evaluating an unset variables['@type'] would itself throw "element @type is undefined" and
-        // mask the intended MethodNotFound.
+        // BaseType does not set @type. Reading the missing value would throw another error and hide
+        // the intended MethodNotFound error, so use the component name as a fallback.
         var typeName = variables[ "@type" ] ?: "BaseType";
         throw( type="MethodNotFound", message="Method '#arguments.missingMethodName#' not found in '#typeName#', nor could I find a matching setter. This could mean there is no property by that name." );
         
     }
 
     /**
-	 * Attempts to set the missing method arguments as the value of an attribute.
+	 * Calls the matching generated property setter for an unknown fluent method.
 	 *
-	 * @missingMethodName       The potential attribute name.
-	 * @missingMethodArguments  Any arguments to pass to set for the potential attribute.
+	 * @missingMethodName       The possible property name.
+	 * @missingMethodArguments  The values passed to the unknown method.
 	 */
 	private any function tryAttributeSetter( required string missingMethodName, struct missingMethodArgs = {} ) {
 		
-        // if the method name starts with "set", we assume it's a setter and ignore it
+        // Do not reinterpret an unknown explicit setter as a property name.
         if ( left( arguments.missingMethodName, 3 ) == "set" ) {
 			return;
 		}
 
-        // if the setter method exists, set it
         if ( structKeyExists( this, "set" & arguments.missingMethodName ) ) {
-            // invoke the setter method with the provided arguments
             invoke( this, "set" & arguments.missingMethodName, arguments.missingMethodArgs );
             return this;
 
-        // else check for a set_ prefix (for reserved keywords) that are mapped to a property
+        // Generated setters add an underscore before names that are reserved words in CFML.
         } else if ( structKeyExists( this, "set_" & arguments.missingMethodName ) ) {
-            // invoke the setter method with the provided arguments
             invoke( this, "set_" & arguments.missingMethodName, arguments.missingMethodArgs );
             return this;
         }
@@ -123,18 +117,18 @@ component
 
 
     /**
-	 * Get Deep Properties
-	 * Returns an array of an objects properties including those inherited by base classes.
-     * Credit: Mementifier
+	 * Returns property metadata from this component and every parent component.
 	 *
-	 * @metaData (optional) The starting CFML metadata of the entity object. Defaults to the current object.
+	 * Parent properties are returned first. This method is based on Mementifier.
 	 *
-	 * @return an array of object properties
+	 * @metaData The component metadata where the search starts. The default is this component.
+	 *
+	 * @return Property metadata from the complete inheritance chain.
 	 */
 	private array function $getDeepProperties( struct metaData = getMetadata( this ) ){
 		var properties = [];
 
-		// if this object extends another object, append any inherited properties.
+		// Read parent metadata first so inherited properties keep their declaration order.
 		if (
 			structKeyExists( arguments.metaData, "extends" ) &&
 			structKeyExists( arguments.metaData.extends, "properties" )
@@ -142,7 +136,6 @@ component
 			properties.append( $getDeepProperties( arguments.metaData.extends ), true );
 		}
 
-		// if this object has properties, append them.
 		if ( structKeyExists( arguments.metaData, "properties" ) ) {
 			properties.append( arguments.metadata.properties, true );
 		}
@@ -151,9 +144,9 @@ component
 	}
 
     /**
-     * Get Properties
-     * Returns an array of the names of the properties of this object, including those inherited by base classes.
-     * @return an array of property names
+     * Returns the property names declared by this component and its parent components.
+     *
+     * @return Property names from the complete inheritance chain.
      */
     private array function getProperties() {
         return $getDeepProperties().map( function( item ) {
@@ -162,30 +155,20 @@ component
     }
 
     /**
-	 * Construct a memento representation from an entity according to it's defined this.memento properties.
-	 * You can also override those properties defined in a class by using the arguments in this method.
+	 * Converts this component into a plain struct that can be serialized as JSON-LD.
 	 *
-	 * @includes         The properties array or list to build the memento with alongside the default includes
-	 * @excludes         The properties array or list to exclude from the memento alongside the default excludes
-	 * @mappers          A struct of key-function pairs that will map properties to closures/lambadas to process the item value.  The closure will transform the item value.
-	 * @defaults         A struct of key-value pairs that denotes the default values for properties if they are null, defaults for everything are a blank string.
-	 * @ignoreDefaults   If set to true, default includes and excludes will be ignored and only the incoming `includes` and `excludes` list will be used.
-	 * @trustedGetters   If set to true, getters will not be checked for in the `this` scope before trying to invoke them.
-	 * @iso8601Format    If set to true, will use the ISO 8601 standard for formatting dates
-	 * @dateMask         The date mask to use when formatting datetimes. Only used if iso8601Format is false.
-	 * @timeMask         The time mask to use when formatting datetimes. Only used if iso8601Format is false.
-	 * @profile          The profile to use instead of the defaults
-	 * @autoCastBooleans Auto cast boolean values if they are not numeric and isBoolean().
+	 * A memento is the plain data form of a component. Nested Schema.org components are converted
+	 * into mementos too. Simple values and existing structs keep their current values.
+	 *
+	 * @excludeEmpty Exclude properties whose value is null. When false, include them as JSON null.
 	 */
 	struct function getMemento( excludeEmpty = true ){
 		
         var includes = getProperties();
-		// Ordered so "@type" (declared first on BaseType) reliably leads each node
-		// and serialized output is deterministic across engines.
+        // An ordered struct keeps @type first and produces the same property order on every engine.
 		var result = structNew( "ordered" );
 
-		// Process Includes
-		// Please keep at a traditional LOOP to avoid closure reference memory leaks and slowness on some engines.
+		// Use a standard loop here. Closures can retain references and run slowly on some CFML engines.
 		for ( var item in includes ) {
 			
 			var thisValue = invoke( this, "get#item#" );
@@ -199,26 +182,22 @@ component
                 result[ item ] = javacast( "null", "" );
 			} 
             
-            // if simple value, just assign it
             else if ( isSimpleValue( thisValue ) ) {
                 result[ item ] = thisValue;
                 continue;
             }
 
-			// Array Collections
 			else if ( isArray( thisValue ) ) {
-				// Map Items into result object
 				result[ item ] = [];
-				// Again we use traditional loops to avoid closure references and slowness on some engines
+				// Use a standard loop to avoid the closure cost described above.
 				for ( var thisIndex = 1; thisIndex <= arrayLen( thisValue ); thisIndex++ ) {
-					// only get mementos from relationships that have mementos, in the event that we have an already-serialized array of structs
+					// Convert nested components, but keep array items that are already plain data.
 					if (
 						!isSimpleValue( thisValue[ thisIndex ] ) && structKeyExists(
 							thisValue[ thisIndex ],
 							"getMemento"
 						)
 					) {
-						// Process the item memento
 						result[ item ][ thisIndex ] = thisValue[ thisIndex ].getMemento( arguments.excludeEmpty );
 					} else {
 						result[ item ][ thisIndex ] = thisValue[ thisIndex ];
@@ -226,26 +205,21 @@ component
 				}
 			}
 
-			// Single Object Relationships
 			else if ( isValid( "component", thisValue ) && structKeyExists( thisValue, "getMemento" ) ) {
-				// Process the item memento
 				result[ item ] = thisValue.getMemento( arguments.excludeEmpty );
 			}
 
-			// we don't know what to do with this item so we return as-is
+			// Keep values that are not simple values, arrays, or supported Schema.org components.
 			else {
 				result[ item ] = thisValue;
 			}
 		}
 
-        // process mappers (transforming key names -- different than mementifier)
-        // Iterate a snapshot of the keys: deleting/adding while iterating a struct
-        // (especially an ordered one) can throw on some engines.
+        // Mappers restore Schema.org names that are reserved words in CFML. Iterate over a copy
+        // of the keys because changing an ordered struct during direct iteration fails on some engines.
         if ( !variables._mappers.isEmpty() ) {
             for ( var key in result.keyArray() ) {
-                // Do we have a mapper according to this key?
                 if ( hasMapper( key ) ) {
-                    // Transform it
                     result[ variables._mappers[ key ] ] = result[ key ];
                     result.delete( key );
                 }
@@ -253,7 +227,6 @@ component
         }
 		
 
-		// Return memento
 		return result;
 	}
 

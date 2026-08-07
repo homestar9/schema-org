@@ -6,48 +6,46 @@ www.ortussolutions.com
 */
 component{
 
-	// UPDATE THE NAME OF THE MODULE IN TESTING BELOW
+	// ColdBox uses this name to load the module being tested.
 	request.MODULE_NAME = "schema-org";
 
-	// Application properties
+	// Configure the test-harness application.
 	this.name              = hash( getCurrentTemplatePath() );
 	this.sessionManagement = true;
 	this.sessionTimeout    = createTimeSpan(0,0,15,0);
     this.setClientCookies  = true;
 
-    /**************************************
-	LUCEE Specific Settings
-	**************************************/
-	// buffer the output of a tag/function body to output in case of a exception
+    // Lucee-specific output settings
+	// Keep buffered output available when a tag or function throws an exception.
 	this.bufferOutput 					= true;
-	// Activate Gzip Compression
+	// Leave HTTP compression disabled in the local test application.
 	this.compression 					= false;
-	// Turn on/off white space managemetn
+	// Use Lucee's smart whitespace handling.
 	this.whiteSpaceManagement 			= "smart";
-	// Turn on/off remote cfc content whitespace
+	// Keep whitespace in responses from remote CFC methods.
 	this.suppressRemoteComponentContent = false;
 
-	// COLDBOX STATIC PROPERTY, DO NOT CHANGE UNLESS THIS IS NOT THE ROOT OF YOUR COLDBOX APP
+	// ColdBox starts from this folder because the test harness is the application root.
 	COLDBOX_APP_ROOT_PATH       = getDirectoryFromPath( getCurrentTemplatePath() );
-	// The web server mapping to this application. Used for remote purposes or static purposes
+	// An empty value means the application is mounted at the web server root.
 	COLDBOX_APP_MAPPING         = "";
-	// COLDBOX PROPERTIES
+	// An empty value tells ColdBox to use the default configuration file.
 	COLDBOX_CONFIG_FILE 	    = "";
-	// COLDBOX APPLICATION KEY OVERRIDE
+	// An empty value lets ColdBox create the application key.
 	COLDBOX_APP_KEY 		    = "";
 
-    // Mappings
+    // Let tests address the harness root as /root.
 	this.mappings[ "/root" ] = COLDBOX_APP_ROOT_PATH;
 
-	// Map back to its root
+	// Find the repository root and module path from the test-harness location.
 	moduleRootPath 	= REReplaceNoCase( this.mappings[ "/root" ], "#request.MODULE_NAME#(\\|/)test-harness(\\|/)", "" );
 	modulePath 		= REReplaceNoCase( this.mappings[ "/root" ], "test-harness(\\|/)", "" );
 
-	// Module Root + Path Mappings
+	// Expose the repository and module paths to ColdBox.
 	this.mappings[ "/moduleroot" ] = moduleRootPath;
 	this.mappings[ "/#request.MODULE_NAME#" ] = modulePath;
 
-	// ORM definitions: ENABLE IF NEEDED
+	// Optional ORM settings. Uncomment this code only when a test needs a database.
 	//this.datasource = "coolblog";
 	//this.ormEnabled = "true";
 	/**
@@ -64,25 +62,24 @@ component{
 	};
 	**/
 
-	// application start
+	// Start ColdBox when the test-harness application starts.
 	public boolean function onApplicationStart(){
 		application.cbBootstrap = new coldbox.system.Bootstrap( COLDBOX_CONFIG_FILE, COLDBOX_APP_ROOT_PATH, COLDBOX_APP_KEY, COLDBOX_APP_MAPPING );
 		application.cbBootstrap.loadColdbox();
 		return true;
 	}
 
-	// request start
+	// Pass each request through the ColdBox application.
 	public boolean function onRequestStart(String targetPage){
 
 		if( url.keyExists( "fwreinit" ) ){
 			if( server.keyExists( "lucee" ) ){
 				pagePoolClear();
 			}
-			// ORM reload: ENABLE IF NEEDED
+			// Uncomment this call when tests need ORM metadata to reload during fwreinit.
 			// ormReload();
 		}
 
-		// Process ColdBox Request
 		application.cbBootstrap.onRequestStart( arguments.targetPage );
 
 		return true;
