@@ -47,7 +47,7 @@
     "excludesAdd":[],
     "changelog":"CHANGELOG.md",
     "projectType":"module",
-    "branch":"schema-bugfixes",
+    "branch":"master",
     "testRunner":"http://localhost:60299/tests/runner.cfm",
     "publish":{
         "forgebox":true,
