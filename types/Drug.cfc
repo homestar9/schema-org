@@ -19,6 +19,8 @@ component extends="schema-org.types.Product" accessors="true" {
 
     property name="clinicalPharmacology" hint="Description of the absorption and elimination of drugs, including their concentration (pharmacokinetics, pK) and biological effects (pharmacodynamics, pD).";
 
+    property name="code" hint="A medical code for the entity, taken from a controlled vocabulary or ontology such as ICD-9, DiseasesDB, MeSH, SNOMED-CT, RxNorm, etc.";
+
     property name="dosageForm" hint="A dosage form in which this drug/supplement is available, e.g. 'tablet', 'suspension', 'injection'.";
 
     property name="doseSchedule" hint="A dosing schedule for the drug for a given population, either observed, recommended, or maximum dose based on the type used.";
@@ -28,6 +30,8 @@ component extends="schema-org.types.Product" accessors="true" {
     property name="drugUnit" hint="The unit in which the drug is measured, e.g. '5 mg tablet'.";
 
     property name="foodWarning" hint="Any precaution, guidance, contraindication, etc. related to consumption of specific foods while taking this drug.";
+
+    property name="guideline" hint="A medical guideline related to this entity.";
 
     property name="includedInHealthInsurancePlan" hint="The insurance plans that cover this drug.";
 
@@ -45,6 +49,8 @@ component extends="schema-org.types.Product" accessors="true" {
 
     property name="mechanismOfAction" hint="The specific biochemical interaction through which this drug or supplement produces its pharmacological effect.";
 
+    property name="medicineSystem" hint="The system of medicine that includes this MedicalEntity, for example 'evidence-based', 'homeopathic', 'chiropractic', etc.";
+
     property name="nonProprietaryName" hint="The generic name of this drug or supplement.";
 
     property name="overdosage" hint="Any information related to overdose on a drug, including signs or symptoms, treatments, contact information for emergency response.";
@@ -59,15 +65,19 @@ component extends="schema-org.types.Product" accessors="true" {
 
     property name="proprietaryName" hint="Proprietary name given to the diet plan, typically by its originator or creator.";
 
+    property name="recognizingAuthority" hint="If applicable, the organization that officially recognizes this entity as part of its endorsed system of medicine.";
+
     property name="relatedDrug" hint="Any other drug related to this one, for example commonly-prescribed alternatives.";
 
+    property name="relevantSpecialty" hint="If applicable, a medical specialty in which this entity is relevant.";
+
     property name="rxcui" hint="The RxCUI drug identifier from RXNORM.";
+
+    property name="study" hint="A medical study or trial related to this entity.";
 
     property name="warning" hint="Any FDA or other warnings about the drug (text or URL).";
 
 
     variables[ "@type" ] = "Drug";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

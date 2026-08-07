@@ -8,6 +8,4 @@ component extends="schema-org.types.AutomotiveBusiness" accessors="true" {
 
     variables[ "@type" ] = "AutoDealer";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

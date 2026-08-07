@@ -20,6 +20,4 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
     variables[ "@type" ] = "MonetaryAmount";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

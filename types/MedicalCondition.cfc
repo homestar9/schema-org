@@ -7,6 +7,8 @@ component extends="schema-org.types.MedicalEntity" accessors="true" {
 
     property name="associatedAnatomy" hint="The anatomy of the underlying organ system or structures associated with this entity.";
 
+    property name="cause" hint="The cause of a medical condition.";
+
     property name="differentialDiagnosis" hint="One of a set of differential diagnoses for the condition. Specifically, a closely-related or competing diagnosis typically considered later in the cognitive process whereby this medical condition is distinguished from others most likely responsible for a similar collection of signs and symptoms to reach the most parsimonious diagnosis or diagnoses in a patient.";
 
     property name="drug" hint="Specifying a drug or medicine used in a medication procedure.";

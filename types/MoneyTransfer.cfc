@@ -12,6 +12,4 @@ component extends="schema-org.types.TransferAction" accessors="true" {
 
     variables[ "@type" ] = "MoneyTransfer";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

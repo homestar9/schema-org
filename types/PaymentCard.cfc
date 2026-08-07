@@ -3,7 +3,7 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.PaymentMethod" accessors="true" {
+component extends="schema-org.types.FinancialProduct" accessors="true" {
 
     property name="cashBack" hint="A cardholder benefit that pays the cardholder a small percentage of their net expenditures.";
 
@@ -13,9 +13,9 @@ component extends="schema-org.types.PaymentMethod" accessors="true" {
 
     property name="monthlyMinimumRepaymentAmount" hint="The minimum payment is the lowest amount of money that one is required to pay on a credit card statement each month.";
 
+    property name="paymentMethodType" hint="The type of a payment method.";
+
 
     variables[ "@type" ] = "PaymentCard";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

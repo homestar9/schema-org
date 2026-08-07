@@ -10,6 +10,4 @@ component extends="schema-org.types.Clip" accessors="true" {
 
     variables[ "@type" ] = "TVClip";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

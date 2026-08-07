@@ -8,6 +8,4 @@ component extends="schema-org.types.Residence" accessors="true" {
 
     variables[ "@type" ] = "GatedResidenceCommunity";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

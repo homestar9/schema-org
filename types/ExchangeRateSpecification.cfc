@@ -14,6 +14,4 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
     variables[ "@type" ] = "ExchangeRateSpecification";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

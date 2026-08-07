@@ -8,6 +8,4 @@ component extends="schema-org.types.SizeSystemEnumeration" accessors="true" {
 
     variables[ "@type" ] = "WearableSizeSystemEnumeration";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

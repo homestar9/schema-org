@@ -8,6 +8,4 @@ component extends="schema-org.types.UserInteraction" accessors="true" {
 
     variables[ "@type" ] = "UserPlays";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

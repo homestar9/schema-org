@@ -26,6 +26,4 @@ component extends="schema-org.types.Audience" accessors="true" {
 
     variables[ "@type" ] = "PeopleAudience";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

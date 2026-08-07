@@ -10,6 +10,4 @@ component extends="schema-org.types.CommunicateAction" accessors="true" {
 
     variables[ "@type" ] = "AskAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

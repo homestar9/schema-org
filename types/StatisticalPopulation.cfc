@@ -10,6 +10,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "StatisticalPopulation";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

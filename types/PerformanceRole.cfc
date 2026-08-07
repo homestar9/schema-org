@@ -10,6 +10,4 @@ component extends="schema-org.types.Role" accessors="true" {
 
     variables[ "@type" ] = "PerformanceRole";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

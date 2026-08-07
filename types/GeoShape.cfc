@@ -24,6 +24,4 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
     variables[ "@type" ] = "GeoShape";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

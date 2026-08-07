@@ -10,6 +10,4 @@ component extends="schema-org.types.QuantitativeValueDistribution" accessors="tr
 
     variables[ "@type" ] = "MonetaryAmountDistribution";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

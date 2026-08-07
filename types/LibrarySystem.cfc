@@ -8,6 +8,4 @@ component extends="schema-org.types.Organization" accessors="true" {
 
     variables[ "@type" ] = "LibrarySystem";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

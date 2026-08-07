@@ -8,6 +8,4 @@ component extends="schema-org.types.Store" accessors="true" {
 
     variables[ "@type" ] = "ToyStore";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

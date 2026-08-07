@@ -28,6 +28,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "GeospatialGeometry";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

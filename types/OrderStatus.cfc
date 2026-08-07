@@ -8,6 +8,4 @@ component extends="schema-org.types.StatusEnumeration" accessors="true" {
 
     variables[ "@type" ] = "OrderStatus";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

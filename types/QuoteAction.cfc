@@ -8,6 +8,4 @@ component extends="schema-org.types.TradeAction" accessors="true" {
 
     variables[ "@type" ] = "QuoteAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

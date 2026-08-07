@@ -3,15 +3,23 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.Book" accessors="true" {
+component extends="schema-org.types.AudioObject" accessors="true" {
 
-    property name="duration" hint="The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601).";
+    property name="abridged" hint="Indicates whether the book is an abridged edition.";
+
+    property name="bookEdition" hint="The edition of the book.";
+
+    property name="bookFormat" hint="The format of the book.";
+
+    property name="illustrator" hint="The illustrator of the book.";
+
+    property name="isbn" hint="The ISBN of the book.";
+
+    property name="numberOfPages" hint="The number of pages in the book.";
 
     property name="readBy" hint="A person who reads (performs) the audiobook.";
 
 
     variables[ "@type" ] = "Audiobook";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

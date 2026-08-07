@@ -15,11 +15,9 @@ In the context of [[ShippingService]], use the [[ServicePeriod]] format, that co
 
     property name="shippingConditions" hint="The conditions (constraints, price) applicable to the [[ShippingService]].";
 
-    property name="validForMemberTier" hint="The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
+    property name="validForMemberTier" hint="The membership program tier(s) an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
 
 
     variables[ "@type" ] = "ShippingService";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

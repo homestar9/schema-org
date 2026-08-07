@@ -8,6 +8,4 @@ component extends="schema-org.types.Permit" accessors="true" {
 
     variables[ "@type" ] = "GovernmentPermit";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

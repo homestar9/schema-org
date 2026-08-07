@@ -10,6 +10,4 @@ component extends="schema-org.types.Product" accessors="true" {
 
     variables[ "@type" ] = "IndividualProduct";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

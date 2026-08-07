@@ -20,6 +20,4 @@ component extends="schema-org.types.PerformingGroup" accessors="true" {
 
     variables[ "@type" ] = "MusicGroup";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

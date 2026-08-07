@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalTherapy" accessors="true" {
 
     variables[ "@type" ] = "OccupationalTherapy";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

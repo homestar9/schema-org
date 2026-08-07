@@ -10,6 +10,4 @@ component extends="schema-org.types.Role" accessors="true" {
 
     variables[ "@type" ] = "OrganizationRole";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

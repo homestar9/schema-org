@@ -8,6 +8,4 @@ component extends="schema-org.types.CivicStructure" accessors="true" {
 
     variables[ "@type" ] = "PublicToilet";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

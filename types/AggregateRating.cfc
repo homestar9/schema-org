@@ -14,6 +14,4 @@ component extends="schema-org.types.Rating" accessors="true" {
 
     variables[ "@type" ] = "AggregateRating";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

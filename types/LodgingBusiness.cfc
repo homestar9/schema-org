@@ -5,8 +5,6 @@
 
 component extends="schema-org.types.LocalBusiness" accessors="true" {
 
-    property name="amenityFeature" hint="An amenity feature (e.g. a characteristic or service) of the Accommodation. This generic property does not make a statement about whether the feature is included in an offer for the main accommodation or available at extra costs.";
-
     property name="audience" hint="An intended audience, i.e. a group for whom something was created.";
 
     property name="availableLanguage" hint="A language someone may use with or at the item, service or place. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]].";
@@ -24,7 +22,5 @@ Typical unit code(s): ROM for room or C62 for no unit. The type of room can be p
 
 
     variables[ "@type" ] = "LodgingBusiness";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

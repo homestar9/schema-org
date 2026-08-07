@@ -14,6 +14,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "Chapter";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

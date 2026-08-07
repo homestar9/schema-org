@@ -8,6 +8,4 @@ component extends="schema-org.types.DigitalDocument" accessors="true" {
 
     variables[ "@type" ] = "TextDigitalDocument";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

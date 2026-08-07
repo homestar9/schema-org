@@ -14,6 +14,4 @@ component extends="schema-org.types.FinancialProduct" accessors="true" {
 
     variables[ "@type" ] = "BankAccount";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

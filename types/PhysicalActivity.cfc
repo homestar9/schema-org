@@ -16,6 +16,4 @@ component extends="schema-org.types.LifestyleModification" accessors="true" {
 
     variables[ "@type" ] = "PhysicalActivity";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

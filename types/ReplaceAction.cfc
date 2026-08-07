@@ -12,6 +12,4 @@ component extends="schema-org.types.UpdateAction" accessors="true" {
 
     variables[ "@type" ] = "ReplaceAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

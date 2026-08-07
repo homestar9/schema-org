@@ -8,6 +8,4 @@ component extends="schema-org.types.Landform" accessors="true" {
 
     variables[ "@type" ] = "BodyOfWater";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

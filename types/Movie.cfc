@@ -9,12 +9,6 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     property name="actors" hint="An actor, e.g. in TV, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.";
 
-    property name="countryOfOrigin" hint="The country of origin of something, including products as well as creative  works such as movie and TV content.
-
-In the case of TV and movie, this would be the country of the principle offices of the production company or individual responsible for the movie. For other kinds of [[CreativeWork]] it is difficult to provide fully general guidance, and properties such as [[contentLocation]] and [[locationCreated]] may be more applicable.
-
-In the case of products, the country of origin of the product. The exact interpretation of this may vary by context and product type, and cannot be fully enumerated here.";
-
     property name="director" hint="A director of e.g. TV, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.";
 
     property name="directors" hint="A director of e.g. TV, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.";
@@ -38,7 +32,5 @@ Since schema.org types like [[Movie]], [[TVEpisode]], [[TVSeason]], and [[TVSeri
 
 
     variables[ "@type" ] = "Movie";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

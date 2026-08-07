@@ -18,6 +18,4 @@ component extends="schema-org.types.UserInteraction" accessors="true" {
 
     variables[ "@type" ] = "UserComments";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

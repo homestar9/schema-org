@@ -10,6 +10,4 @@ component extends="schema-org.types.FinancialProduct" accessors="true" {
 
     variables[ "@type" ] = "InvestmentOrDeposit";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

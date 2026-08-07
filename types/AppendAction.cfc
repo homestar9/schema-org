@@ -8,6 +8,4 @@ component extends="schema-org.types.InsertAction" accessors="true" {
 
     variables[ "@type" ] = "AppendAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

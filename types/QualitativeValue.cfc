@@ -25,6 +25,4 @@ component extends="schema-org.types.Enumeration" accessors="true" {
 
     variables[ "@type" ] = "QualitativeValue";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

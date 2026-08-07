@@ -8,6 +8,4 @@ component extends="schema-org.types.SportsActivityLocation" accessors="true" {
 
     variables[ "@type" ] = "TennisComplex";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

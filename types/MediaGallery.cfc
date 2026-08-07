@@ -8,6 +8,4 @@ component extends="schema-org.types.CollectionPage" accessors="true" {
 
     variables[ "@type" ] = "MediaGallery";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.InteractAction" accessors="true" {
 
     variables[ "@type" ] = "BefriendAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

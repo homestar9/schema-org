@@ -10,6 +10,4 @@ component extends="schema-org.types.Action" accessors="true" {
 
     variables[ "@type" ] = "SolveMathAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

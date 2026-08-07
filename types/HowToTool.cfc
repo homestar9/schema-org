@@ -8,6 +8,4 @@ component extends="schema-org.types.HowToItem" accessors="true" {
 
     variables[ "@type" ] = "HowToTool";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

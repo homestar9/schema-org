@@ -8,6 +8,4 @@ component extends="schema-org.types.NewsArticle" accessors="true" {
 
     variables[ "@type" ] = "BackgroundNewsArticle";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

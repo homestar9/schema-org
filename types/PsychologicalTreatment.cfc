@@ -8,6 +8,4 @@ component extends="schema-org.types.TherapeuticProcedure" accessors="true" {
 
     variables[ "@type" ] = "PsychologicalTreatment";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

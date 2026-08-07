@@ -8,6 +8,4 @@ component extends="schema-org.types.NonprofitType" accessors="true" {
 
     variables[ "@type" ] = "UKNonprofitType";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

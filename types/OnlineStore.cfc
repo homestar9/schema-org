@@ -5,9 +5,9 @@
 
 component extends="schema-org.types.OnlineBusiness" accessors="true" {
 
+    property name="isStoreOn" hint="The eCommerce marketplace this online store is on.";
+
 
     variables[ "@type" ] = "OnlineStore";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

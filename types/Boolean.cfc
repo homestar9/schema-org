@@ -8,6 +8,4 @@ component extends="schema-org.models.BaseType" accessors="true" {
 
     variables[ "@type" ] = "Boolean";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

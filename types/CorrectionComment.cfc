@@ -8,6 +8,4 @@ component extends="schema-org.types.Comment" accessors="true" {
 
     variables[ "@type" ] = "CorrectionComment";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

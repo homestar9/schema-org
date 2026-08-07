@@ -8,6 +8,4 @@ component extends="schema-org.types.Text" accessors="true" {
 
     variables[ "@type" ] = "XPathType";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

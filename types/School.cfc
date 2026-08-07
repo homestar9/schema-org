@@ -8,6 +8,4 @@ component extends="schema-org.types.EducationalOrganization" accessors="true" {
 
     variables[ "@type" ] = "School";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

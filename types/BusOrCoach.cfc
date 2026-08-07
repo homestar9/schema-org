@@ -12,6 +12,4 @@ component extends="schema-org.types.Vehicle" accessors="true" {
 
     variables[ "@type" ] = "BusOrCoach";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

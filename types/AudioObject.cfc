@@ -14,6 +14,4 @@ component extends="schema-org.types.MediaObject" accessors="true" {
 
     variables[ "@type" ] = "AudioObject";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

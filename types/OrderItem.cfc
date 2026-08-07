@@ -3,7 +3,7 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.Intangible" accessors="true" {
+component extends="schema-org.types.StructuredValue" accessors="true" {
 
     property name="orderDelivery" hint="The delivery of the parcel related to this order or order item.";
 
@@ -17,7 +17,5 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
 
     variables[ "@type" ] = "OrderItem";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

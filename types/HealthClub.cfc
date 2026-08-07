@@ -8,6 +8,4 @@ component extends="schema-org.types.HealthAndBeautyBusiness" accessors="true" {
 
     variables[ "@type" ] = "HealthClub";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

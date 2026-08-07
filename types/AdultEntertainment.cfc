@@ -8,6 +8,4 @@ component extends="schema-org.types.EntertainmentBusiness" accessors="true" {
 
     variables[ "@type" ] = "AdultEntertainment";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

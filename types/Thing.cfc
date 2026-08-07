@@ -23,6 +23,8 @@ component extends="schema-org.models.BaseType" accessors="true" {
 
     property name="name" hint="The name of the item.";
 
+    property name="owner" hint="A person or organization who owns this Thing.";
+
     property name="potentialAction" hint="Indicates a potential Action, which describes an idealized action in which this thing would play an 'object' role.";
 
     property name="sameAs" hint="URL of a reference Web page that unambiguously indicates the item's identity. E.g. the URL of the item's Wikipedia page, Wikidata entry, or official website.";

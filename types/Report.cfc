@@ -10,6 +10,4 @@ component extends="schema-org.types.Article" accessors="true" {
 
     variables[ "@type" ] = "Report";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

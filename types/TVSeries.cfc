@@ -3,7 +3,7 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
+component extends="schema-org.types.CreativeWork" accessors="true" {
 
     property name="actor" hint="An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.";
 
@@ -11,19 +11,17 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
 
     property name="containsSeason" hint="A season that is part of the media series.";
 
-    property name="countryOfOrigin" hint="The country of origin of something, including products as well as creative  works such as movie and TV content.
-
-In the case of TV and movie, this would be the country of the principle offices of the production company or individual responsible for the movie. For other kinds of [[CreativeWork]] it is difficult to provide fully general guidance, and properties such as [[contentLocation]] and [[locationCreated]] may be more applicable.
-
-In the case of products, the country of origin of the product. The exact interpretation of this may vary by context and product type, and cannot be fully enumerated here.";
-
     property name="director" hint="A director of e.g. TV, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.";
 
     property name="directors" hint="A director of e.g. TV, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.";
 
+    property name="endDate" hint="The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).";
+
     property name="episode" hint="An episode of a TV, radio or game media within a series or season.";
 
     property name="episodes" hint="An episode of a TV/radio series or season.";
+
+    property name="issn" hint="The International Standard Serial Number (ISSN) that identifies this serial publication. You can repeat this property to identify different formats of, or the linking ISSN (ISSN-L) for, this serial publication.";
 
     property name="musicBy" hint="The composer of the soundtrack.";
 
@@ -37,6 +35,8 @@ In the case of products, the country of origin of the product. The exact interpr
 
     property name="seasons" hint="A season in a media series.";
 
+    property name="startDate" hint="The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).";
+
     property name="titleEIDR" hint="An [EIDR](https://eidr.org/) (Entertainment Identifier Registry) [[identifier]] representing at the most general/abstract level, a work of film or television.
 
 For example, the motion picture known as 'Ghostbusters' has a titleEIDR of  '10.5240/7EC7-228A-510A-053E-CBB8-J'. This title (or work) may have several variants, which EIDR calls 'edits'. See [[editEIDR]].
@@ -48,7 +48,5 @@ Since schema.org types like [[Movie]], [[TVEpisode]], [[TVSeason]], and [[TVSeri
 
 
     variables[ "@type" ] = "TVSeries";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

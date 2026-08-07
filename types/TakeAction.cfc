@@ -8,6 +8,4 @@ component extends="schema-org.types.TransferAction" accessors="true" {
 
     variables[ "@type" ] = "TakeAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

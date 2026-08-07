@@ -8,6 +8,4 @@ component extends="schema-org.types.HomeAndConstructionBusiness" accessors="true
 
     variables[ "@type" ] = "HVACBusiness";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

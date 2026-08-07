@@ -8,6 +8,4 @@ component extends="schema-org.types.ControlAction" accessors="true" {
 
     variables[ "@type" ] = "SuspendAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

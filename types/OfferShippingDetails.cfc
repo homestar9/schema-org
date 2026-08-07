@@ -27,7 +27,7 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
     property name="transitTimeLabel" hint="Label to match an [[OfferShippingDetails]] with a [[DeliveryTimeSettings]] (within the context of a [[shippingSettingsLink]] cross-reference).";
 
-    property name="validForMemberTier" hint="The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
+    property name="validForMemberTier" hint="The membership program tier(s) an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
 
     property name="weight" hint="The weight of the product or person.";
 
@@ -35,7 +35,5 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
 
     variables[ "@type" ] = "OfferShippingDetails";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

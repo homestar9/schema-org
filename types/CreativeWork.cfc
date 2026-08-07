@@ -5,7 +5,7 @@
 
 component extends="schema-org.types.Thing" accessors="true" {
 
-    property name="about" hint="The subject matter of the content.";
+    property name="about" hint="The subject matter of an object.";
 
     property name="_abstract" hint="An abstract is a short description that summarizes a [[CreativeWork]].";
 
@@ -19,9 +19,9 @@ component extends="schema-org.types.Thing" accessors="true" {
 
     property name="accessibilitySummary" hint="A human-readable summary of specific accessibility features or deficiencies, consistent with the other accessibility metadata but expressing subtleties such as 'short descriptions are present but long descriptions will be needed for non-visual users' or 'short descriptions are present and no long descriptions are needed'.";
 
-    property name="accessMode" hint="The human sensory perceptual system or cognitive faculty through which a person may process or perceive information. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessMode-vocabulary).";
+    property name="accessMode" hint="The human sensory perceptual system or cognitive faculty through which a person may process or perceive the intellectual content of a resource, not including any adaptations of the content (e.g., text alternatives for images). Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessMode-vocabulary).";
 
-    property name="accessModeSufficient" hint="A list of single or combined accessModes that are sufficient to understand all the intellectual content of a resource. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessModeSufficient-vocabulary).";
+    property name="accessModeSufficient" hint="A list of single or combined access modes that are sufficient to understand all the intellectual content of a resource, including any adaptations. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessModeSufficient-vocabulary).";
 
     property name="accountablePerson" hint="Specifies the Person that is legally accountable for the CreativeWork.";
 
@@ -94,6 +94,8 @@ In the case of products, the country of origin of the product. The exact interpr
     property name="digitalSourceType" hint="Indicates an IPTCDigitalSourceEnumeration code indicating the nature of the digital source(s) for some [[CreativeWork]].";
 
     property name="discussionUrl" hint="A link to the page containing the comments of the CreativeWork.";
+
+    property name="displayLocation" hint="The location at which an item can be viewed or experienced in-person.";
 
     property name="editEIDR" hint="An [EIDR](https://eidr.org/) (Entertainment Identifier Registry) [[identifier]] representing a specific edit / edition for a work of film or television.
 
@@ -171,7 +173,7 @@ Unregistered or niche encoding and file formats can be indicated instead via the
 
     property name="material" hint="A material that something is made from, e.g. leather, wool, cotton, paper.";
 
-    property name="materialExtent" hint="{@language={en}, @value={The quantity of the materials being described or an expression of the physical space they occupy.}}";
+    property name="materialExtent" hint="The quantity of the materials being described or an expression of the physical space they occupy.";
 
     property name="mentions" hint="Indicates that the CreativeWork contains a reference to, but is not necessarily about a concept.";
 
@@ -247,7 +249,7 @@ Open-ended date ranges can be written with '..' in place of the end date. For ex
 
     property name="timeRequired" hint="Approximate or typical time it usually takes to work with or through the content of this work for the typical or target audience.";
 
-    property name="translationOfWork" hint="The work that this work has been translated from. E.g. 物�?起�? is a translationOf “On the Origin of Species�?.";
+    property name="translationOfWork" hint="The work that this work has been translated from. E.g. 物种起源 is a translationOf “On the Origin of Species”.";
 
     property name="translator" hint="Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.";
 
@@ -265,7 +267,7 @@ This property can be used alongside the license property which indicates license
 
     property name="workExample" hint="Example/instance/realization/derivation of the concept of this creative work. E.g. the paperback edition, first edition, or e-book.";
 
-    property name="workTranslation" hint="A work that is a translation of the content of this work. E.g. 西�?�記 has an English workTranslation “Journey to the West�?, a German workTranslation “Monkeys Pilgerfahrt�? and a Vietnamese  translation Tây du ký bình khảo.";
+    property name="workTranslation" hint="A work that is a translation of the content of this work. E.g. 西遊記 has an English workTranslation “Journey to the West”, a German workTranslation “Monkeys Pilgerfahrt” and a Vietnamese  translation Tây du ký bình khảo.";
 
 
     variables[ "@type" ] = "CreativeWork";

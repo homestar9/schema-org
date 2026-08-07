@@ -13,11 +13,7 @@ component extends="schema-org.types.Residence" accessors="true" {
 
     property name="petsAllowed" hint="Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.";
 
-    property name="tourBookingPage" hint="A page providing information on how to book a tour of some [[Place]], such as an [[Accommodation]] or [[ApartmentComplex]] in a real estate setting, as well as other kinds of tours as appropriate.";
-
 
     variables[ "@type" ] = "ApartmentComplex";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

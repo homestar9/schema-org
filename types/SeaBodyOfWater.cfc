@@ -8,6 +8,4 @@ component extends="schema-org.types.BodyOfWater" accessors="true" {
 
     variables[ "@type" ] = "SeaBodyOfWater";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

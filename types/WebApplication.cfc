@@ -10,6 +10,4 @@ component extends="schema-org.types.SoftwareApplication" accessors="true" {
 
     variables[ "@type" ] = "WebApplication";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

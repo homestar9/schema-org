@@ -12,6 +12,4 @@ component extends="schema-org.types.GeoShape" accessors="true" {
 
     variables[ "@type" ] = "GeoCircle";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -41,6 +41,4 @@ we define a supporting type, [[SpeakableSpecification]]  which is defined to be 
 
     variables[ "@type" ] = "WebPage";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

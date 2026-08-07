@@ -24,6 +24,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "ServiceChannel";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

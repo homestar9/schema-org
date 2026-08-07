@@ -8,6 +8,4 @@ component extends="schema-org.types.AdministrativeArea" accessors="true" {
 
     variables[ "@type" ] = "City";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

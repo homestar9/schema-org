@@ -8,6 +8,4 @@ component extends="schema-org.types.Message" accessors="true" {
 
     variables[ "@type" ] = "EmailMessage";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

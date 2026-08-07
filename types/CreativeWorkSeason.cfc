@@ -30,6 +30,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "CreativeWorkSeason";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

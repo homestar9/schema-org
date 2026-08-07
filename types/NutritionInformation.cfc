@@ -32,6 +32,4 @@ component extends="schema-org.types.StructuredValue" accessors="true" {
 
     variables[ "@type" ] = "NutritionInformation";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

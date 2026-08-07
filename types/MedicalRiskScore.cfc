@@ -10,6 +10,4 @@ component extends="schema-org.types.MedicalRiskEstimator" accessors="true" {
 
     variables[ "@type" ] = "MedicalRiskScore";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.GovernmentBuilding" accessors="true" {
 
     variables[ "@type" ] = "DefenceEstablishment";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

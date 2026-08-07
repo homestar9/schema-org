@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalEnumeration" accessors="true" {
 
     variables[ "@type" ] = "InfectiousAgentClass";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

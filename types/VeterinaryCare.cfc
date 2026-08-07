@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalOrganization" accessors="true" {
 
     variables[ "@type" ] = "VeterinaryCare";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

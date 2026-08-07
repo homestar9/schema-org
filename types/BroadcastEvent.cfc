@@ -16,6 +16,4 @@ component extends="schema-org.types.PublicationEvent" accessors="true" {
 
     variables[ "@type" ] = "BroadcastEvent";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

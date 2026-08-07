@@ -8,6 +8,4 @@ component extends="schema-org.types.MedicalIndication" accessors="true" {
 
     variables[ "@type" ] = "PreventionIndication";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

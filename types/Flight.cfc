@@ -38,6 +38,4 @@ component extends="schema-org.types.Trip" accessors="true" {
 
     variables[ "@type" ] = "Flight";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

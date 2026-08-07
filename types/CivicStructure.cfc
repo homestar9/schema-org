@@ -10,6 +10,4 @@ component extends="schema-org.types.Place" accessors="true" {
 
     variables[ "@type" ] = "CivicStructure";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

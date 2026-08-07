@@ -39,6 +39,8 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     property name="requirements" hint="Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (examples: DirectX, Java or .NET runtime).";
 
+    property name="runtimePlatform" hint="Runtime platform or script interpreter dependencies (example: Java v1, Python 2.3, .NET Framework 3.0).";
+
     property name="screenshot" hint="A link to a screenshot image of the app.";
 
     property name="softwareAddOn" hint="Additional content for a software application.";
@@ -55,7 +57,5 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
 
     variables[ "@type" ] = "SoftwareApplication";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

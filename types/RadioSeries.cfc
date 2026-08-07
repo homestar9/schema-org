@@ -36,6 +36,4 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
 
     variables[ "@type" ] = "RadioSeries";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

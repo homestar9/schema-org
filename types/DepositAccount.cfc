@@ -5,9 +5,9 @@
 
 component extends="schema-org.types.BankAccount" accessors="true" {
 
+    property name="amount" hint="The amount of money.";
+
 
     variables[ "@type" ] = "DepositAccount";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

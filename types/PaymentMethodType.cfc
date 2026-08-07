@@ -8,6 +8,4 @@ component extends="schema-org.types.Enumeration" accessors="true" {
 
     variables[ "@type" ] = "PaymentMethodType";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

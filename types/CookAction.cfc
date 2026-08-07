@@ -14,6 +14,4 @@ component extends="schema-org.types.CreateAction" accessors="true" {
 
     variables[ "@type" ] = "CookAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

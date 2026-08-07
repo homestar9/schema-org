@@ -16,6 +16,4 @@ component extends="schema-org.types.CreativeWork" accessors="true" {
 
     variables[ "@type" ] = "PublicationVolume";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

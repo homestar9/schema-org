@@ -16,6 +16,4 @@ component extends="schema-org.types.MedicalIntangible" accessors="true" {
 
     variables[ "@type" ] = "DoseSchedule";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

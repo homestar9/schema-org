@@ -8,6 +8,4 @@ component extends="schema-org.types.Number" accessors="true" {
 
     variables[ "@type" ] = "Integer";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -14,6 +14,4 @@ component extends="schema-org.types.AnatomicalStructure" accessors="true" {
 
     variables[ "@type" ] = "Joint";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -30,6 +30,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "PropertyValueSpecification";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

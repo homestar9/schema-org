@@ -10,6 +10,4 @@ component extends="schema-org.types.InteractAction" accessors="true" {
 
     variables[ "@type" ] = "FollowAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

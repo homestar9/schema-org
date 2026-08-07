@@ -7,7 +7,11 @@ component extends="schema-org.types.MedicalBusiness" accessors="true" {
 
     property name="availableService" hint="A medical service available from this provider.";
 
+    property name="healthPlanNetworkId" hint="Name or unique ID of network. (Networks are often reused across different insurance plans.)";
+
     property name="hospitalAffiliation" hint="A hospital with which the physician or office is affiliated.";
+
+    property name="isAcceptingNewPatients" hint="Whether the provider is accepting new patients.";
 
     property name="medicalSpecialty" hint="A medical specialty of the provider.";
 
@@ -19,7 +23,5 @@ Note: for historical reasons, any textual label and formal code provided as a li
 
 
     variables[ "@type" ] = "Physician";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

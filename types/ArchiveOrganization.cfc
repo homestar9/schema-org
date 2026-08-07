@@ -5,7 +5,7 @@
 
 component extends="schema-org.types.LocalBusiness" accessors="true" {
 
-    property name="archiveHeld" hint="{@language={en}, @value={Collection, [fonds](https://en.wikipedia.org/wiki/Fonds), or item held, kept or maintained by an [[ArchiveOrganization]].}}";
+    property name="archiveHeld" hint="Collection, [fonds](https://en.wikipedia.org/wiki/Fonds), or item held, kept or maintained by an [[ArchiveOrganization]].";
 
 
     variables[ "@type" ] = "ArchiveOrganization";

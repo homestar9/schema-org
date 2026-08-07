@@ -8,6 +8,4 @@ component extends="schema-org.types.Resort" accessors="true" {
 
     variables[ "@type" ] = "SkiResort";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

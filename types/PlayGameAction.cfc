@@ -10,6 +10,4 @@ component extends="schema-org.types.ConsumeAction" accessors="true" {
 
     variables[ "@type" ] = "PlayGameAction";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

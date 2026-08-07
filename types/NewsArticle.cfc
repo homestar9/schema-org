@@ -23,6 +23,4 @@ Dateline summaries are oriented more towards human readers than towards automate
 
     variables[ "@type" ] = "NewsArticle";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

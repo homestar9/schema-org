@@ -3,9 +3,11 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.LearningResource" accessors="true" {
+component extends="schema-org.types.CreativeWork" accessors="true" {
 
     property name="availableLanguage" hint="A language someone may use with or at the item, service or place. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]].";
+
+    property name="competencyRequired" hint="Knowledge, skill, ability or personal attribute that must be demonstrated by a person or other entity in order to do something such as earn an Educational Occupational Credential or understand a LearningResource.";
 
     property name="courseCode" hint="The identifier for the [[Course]] used by the course [[provider]] (e.g. CS101 or 6.001).";
 

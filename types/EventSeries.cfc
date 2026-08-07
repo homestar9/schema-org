@@ -3,7 +3,7 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.Series" accessors="true" {
+component extends="schema-org.types.Event" accessors="true" {
 
 
     variables[ "@type" ] = "EventSeries";

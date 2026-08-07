@@ -12,6 +12,4 @@ component extends="schema-org.types.LoanOrCredit" accessors="true" {
 
     variables[ "@type" ] = "MortgageLoan";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

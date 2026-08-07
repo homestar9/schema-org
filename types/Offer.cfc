@@ -71,7 +71,7 @@ Note also that this is a definition for how to include GTINs in Schema.org data,
 
     property name="hasAdultConsideration" hint="Used to tag an item to be intended or suitable for consumption or use by adults only.";
 
-    property name="hasGS1DigitalLink" hint="The <a href='https://www.gs1.org/standards/gs1-digital-link'>GS1 digital link</a> associated with the object. This URL should conform to the particular requirements of digital links. The link should only contain the Application Identifiers (AIs) that are relevant for the entity being annotated, for instance a [[Product]] or an [[Organization]], and for the correct granularity. In particular, for products:<ul><li>A Digital Link that contains a serial number (AI <code>21</code>) should only be present on instances of [[IndividualProduct]]</li><li>A Digital Link that contains a lot number (AI <code>10</code>) should be annotated as [[SomeProduct]] if only products from that lot are sold, or [[IndividualProduct]] if there is only a specific product.</li><li>A Digital Link that contains a global model number (AI <code>8013</code>)  should be attached to a [[Product]] or a [[ProductModel]].</li></ul> Other item types should be adapted similarly.";
+    property name="hasGS1DigitalLink" hint="The <a href='https://www.gs1.org/standards/gs1-digital-link'>GS1 digital link</a> associated with the object. This URL should conform to the particular requirements of digital links. The link should only contain the Application Identifiers (AIs) that are relevant for the entity being annotated, for instance a [[Product]] or an [[Organization]], and for the correct granularity. In particular, for products:<ul><li>A Digital Link that contains a serial number (AI <code>21</code>) should only be present on instances of [[IndividualProduct]]</li><li>A Digital Link that contains a lot number (AI <code>10</code>) should be annotated as [[SomeProducts]] if only products from that lot are sold, or [[IndividualProduct]] if there is only a specific product.</li><li>A Digital Link that contains a global model number (AI <code>8013</code>) should be attached to a [[Product]] or a [[ProductModel]].</li></ul> Other item types should be adapted similarly.";
 
     property name="hasMeasurement" hint="A measurement of an item, For example, the inseam of pants, the wheel size of a bicycle, the gauge of a screw, or the carbon footprint measured for certification by an authority. Usually an exact measurement, but can also be a range of measurements for adjustable products, for example belts and ski bindings.";
 
@@ -122,7 +122,7 @@ To discourage over-use, and reflecting intial usecases, the property is expected
 
     property name="sku" hint="The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers.";
 
-    property name="validForMemberTier" hint="The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
+    property name="validForMemberTier" hint="The membership program tier(s) an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
 
     property name="validFrom" hint="The date when the item becomes valid.";
 
@@ -132,7 +132,5 @@ To discourage over-use, and reflecting intial usecases, the property is expected
 
 
     variables[ "@type" ] = "Offer";
-
-    variables._mappers[ "_abstract" ] = "abstract";
 
 }

@@ -14,6 +14,4 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     variables[ "@type" ] = "EnergyConsumptionDetails";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }

@@ -8,6 +8,4 @@ component extends="schema-org.types.FoodEstablishment" accessors="true" {
 
     variables[ "@type" ] = "CafeOrCoffeeShop";
 
-    variables._mappers[ "_abstract" ] = "abstract";
-
 }
