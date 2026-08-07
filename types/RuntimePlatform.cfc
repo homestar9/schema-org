@@ -1,11 +1,11 @@
 // --------------------------------------------------------
-// AUTO-GENERATED: Quantity.cfc
+// AUTO-GENERATED: RuntimePlatform.cfc
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.models.BaseType" accessors="true" {
+component extends="schema-org.types.SoftwareApplication" accessors="true" {
 
 
-    variables[ "@type" ] = "Quantity";
+    variables[ "@type" ] = "RuntimePlatform";
 
 }

@@ -43,6 +43,8 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     property name="jobBenefits" hint="Description of benefits associated with the job.";
 
+    property name="jobDuration" hint="The expected duration of an employment offer as advertised by the employer. Relevant for job postings that have a clearly defined period in mind such as seasonal work, substitutes for maternal leave or any other temporary employment.";
+
     property name="jobImmediateStart" hint="An indicator as to whether a position is available for an immediate start.";
 
     property name="jobLocation" hint="A (typically single) geographic location associated with the job position.";

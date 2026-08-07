@@ -5,7 +5,7 @@
 
 component extends="schema-org.types.Thing" accessors="true" {
 
-    property name="about" hint="The subject matter of the content.";
+    property name="about" hint="The subject matter of an object.";
 
     property name="actor" hint="An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.";
 
@@ -43,6 +43,10 @@ component extends="schema-org.types.Thing" accessors="true" {
     property name="funder" hint="A person or organization that supports (sponsors) something through some kind of financial contribution.";
 
     property name="funding" hint="A [[Grant]] that directly or indirectly provide funding or sponsorship for this item. See also [[ownershipFundingInfo]].";
+
+    property name="hasParticipationOffer" hint="An offer to participate in the event, for example, Call for Proposals, Call for Speakers, or Call for Performers.";
+
+    property name="hasSponsorshipOffer" hint="An offer to sponsor the event, for example, Sponsorship Prospectus, Sponsorship Opportunities, or Sponsor Packages.";
 
     property name="inLanguage" hint="The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].";
 

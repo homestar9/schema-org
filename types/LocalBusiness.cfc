@@ -23,6 +23,9 @@ component extends="schema-org.types.Organization" accessors="true" {
 
     property name="currenciesAccepted" hint="The currency accepted.\n\nUse standard formats: [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217), e.g. 'USD'; [Ticker symbol](https://en.wikipedia.org/wiki/List_of_cryptocurrencies) for cryptocurrencies, e.g. 'BTC'; well known names for [Local Exchange Trading Systems](https://en.wikipedia.org/wiki/Local_exchange_trading_system) (LETS) and other currency types, e.g. 'Ithaca HOUR'.";
 
+    property name="floorLevel" hint="The floor level for an [[Accommodation]] in a multi-storey building. Since counting
+  systems [vary internationally](https://en.wikipedia.org/wiki/Storey##Consecutive_number_floor_designations), the local system should be used where possible.";
+
     property name="geo" hint="The geo coordinates of the place.";
 
     property name="geoContains" hint="Represents a relationship between two geometries (or the places they represent), relating a containing geometry to a contained geometry. 'a contains b iff no points of b lie in the exterior of a, and at least one point of the interior of b lies in the interior of a'. As defined in [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM).";

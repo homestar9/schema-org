@@ -48,7 +48,7 @@ component extends="schema-org.types.Intangible" accessors="true" {
 
     property name="returnShippingFeesAmount" hint="Amount of shipping costs for product returns (for any reason). Applicable when property [[returnFees]] equals [[ReturnShippingFees]].";
 
-    property name="validForMemberTier" hint="The membership program tier an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
+    property name="validForMemberTier" hint="The membership program tier(s) an Offer (or a PriceSpecification, OfferShippingDetails, or MerchantReturnPolicy under an Offer) is valid for.";
 
 
     variables[ "@type" ] = "MerchantReturnPolicy";

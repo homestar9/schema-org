@@ -9,7 +9,7 @@ component extends="schema-org.types.ContactPoint" accessors="true" {
 
     property name="addressLocality" hint="The locality in which the street address is, and which is in the region. For example, Mountain View.";
 
-    property name="addressRegion" hint="The region in which the locality is, and which is in the country. For example, California or another appropriate first-level [Administrative division](https://en.wikipedia.org/wiki/List_of_administrative_divisions_by_country).";
+    property name="addressRegion" hint="The region in which the locality is, and which is in the country. For example, California or another appropriate first-level [Administrative division](https://en.wikipedia.org/wiki/List_of_administrative_divisions_by_country) such as the Province in Italy or Region in Germany.";
 
     property name="extendedAddress" hint="An address extension such as an apartment number, C/O or alternative name.";
 

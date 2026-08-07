@@ -23,7 +23,7 @@ component extends="schema-org.types.CivicStructure" accessors="true" {
 
     property name="brand" hint="The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.";
 
-    property name="companyRegistration" hint="The official registration number of a business including the organization that issued it such as Company House or Chamber of Commerce.";
+    property name="companyRegistration" hint="The official registration information of a business including the organization that issued it such as Company House or Chamber of Commerce in form of a Certification.";
 
     property name="contactPoint" hint="A contact point for a person or organization.";
 
@@ -50,6 +50,9 @@ component extends="schema-org.types.CivicStructure" accessors="true" {
     property name="employees" hint="People working for this organization.";
 
     property name="ethicsPolicy" hint="Statement about ethics policy, e.g. of a [[NewsMediaOrganization]] regarding journalistic and publishing practices, or of a [[Restaurant]], a page describing food source policies. In the case of a [[NewsMediaOrganization]], an ethicsPolicy is typically a statement describing the personal, organizational, and corporate standards of behavior expected by the organization.";
+
+    property name="floorLevel" hint="The floor level for an [[Accommodation]] in a multi-storey building. Since counting
+  systems [vary internationally](https://en.wikipedia.org/wiki/Storey##Consecutive_number_floor_designations), the local system should be used where possible.";
 
     property name="founder" hint="A person or organization who founded this organization.";
 
@@ -111,7 +114,7 @@ component extends="schema-org.types.CivicStructure" accessors="true" {
 
     property name="ownershipFundingInfo" hint="For an [[Organization]] (often but not necessarily a [[NewsMediaOrganization]]), a description of organizational ownership structure; funding and grants. In a news/media setting, this is with particular reference to editorial independence.   Note that the [[funder]] is also available and can be used to make basic funder information machine-readable.";
 
-    property name="owns" hint="Products owned by the organization or person.";
+    property name="owns" hint="Things owned by the organization or person.";
 
     property name="parentOrganization" hint="The larger organization that this organization is a [[subOrganization]] of, if any.";
 
@@ -140,7 +143,7 @@ While such policies are most typically expressed in natural language, sometimes 
 
     property name="unnamedSourcesPolicy" hint="For an [[Organization]] (typically a [[NewsMediaOrganization]]), a statement about policy on use of unnamed sources and the decision process required.";
 
-    property name="vatID" hint="The Value-added Tax ID of the organization or person.";
+    property name="vatID" hint="The value-added Tax ID of the organization or person with national prefix (for example IT123456789). Can also be described as [[iso6523Code]] with proper prefix.";
 
 
     variables[ "@type" ] = "MovieTheater";

@@ -5,7 +5,7 @@
 
 component extends="schema-org.types.Thing" accessors="true" {
 
-    property name="about" hint="The subject matter of the content.";
+    property name="about" hint="The subject matter of an object.";
 
     property name="_abstract" hint="An abstract is a short description that summarizes a [[CreativeWork]].";
 
@@ -19,9 +19,9 @@ component extends="schema-org.types.Thing" accessors="true" {
 
     property name="accessibilitySummary" hint="A human-readable summary of specific accessibility features or deficiencies, consistent with the other accessibility metadata but expressing subtleties such as 'short descriptions are present but long descriptions will be needed for non-visual users' or 'short descriptions are present and no long descriptions are needed'.";
 
-    property name="accessMode" hint="The human sensory perceptual system or cognitive faculty through which a person may process or perceive information. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessMode-vocabulary).";
+    property name="accessMode" hint="The human sensory perceptual system or cognitive faculty through which a person may process or perceive the intellectual content of a resource, not including any adaptations of the content (e.g., text alternatives for images). Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessMode-vocabulary).";
 
-    property name="accessModeSufficient" hint="A list of single or combined accessModes that are sufficient to understand all the intellectual content of a resource. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessModeSufficient-vocabulary).";
+    property name="accessModeSufficient" hint="A list of single or combined access modes that are sufficient to understand all the intellectual content of a resource, including any adaptations. Values should be drawn from the [approved vocabulary](https://www.w3.org/2021/a11y-discov-vocab/latest/##accessModeSufficient-vocabulary).";
 
     property name="accountablePerson" hint="Specifies the Person that is legally accountable for the CreativeWork.";
 
@@ -94,6 +94,8 @@ In the case of products, the country of origin of the product. The exact interpr
     property name="digitalSourceType" hint="Indicates an IPTCDigitalSourceEnumeration code indicating the nature of the digital source(s) for some [[CreativeWork]].";
 
     property name="discussionUrl" hint="A link to the page containing the comments of the CreativeWork.";
+
+    property name="displayLocation" hint="The location at which an item can be viewed or experienced in-person.";
 
     property name="editEIDR" hint="An [EIDR](https://eidr.org/) (Entertainment Identifier Registry) [[identifier]] representing a specific edit / edition for a work of film or television.
 

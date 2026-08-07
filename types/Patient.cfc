@@ -95,6 +95,8 @@ component extends="schema-org.types.MedicalAudience" accessors="true" {
 
     property name="knowsLanguage" hint="Of a [[Person]], and less typically of an [[Organization]], to indicate a known language. We do not distinguish skill levels or reading/writing/speaking/signing here. Use language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47).";
 
+    property name="lifeEvent" hint="A life event like baptism, communions, Bar Mitzvahs, Aqiqah, Namakarana, Miyamairi, burial, ....";
+
     property name="makesOffer" hint="A pointer to products or services offered by the organization or person.";
 
     property name="memberOf" hint="An Organization (or ProgramMembership) to which this Person or Organization belongs.";
@@ -105,7 +107,7 @@ component extends="schema-org.types.MedicalAudience" accessors="true" {
 
     property name="netWorth" hint="The total financial value of the person as calculated by subtracting the total value of liabilities from the total value of assets.";
 
-    property name="owns" hint="Products owned by the organization or person.";
+    property name="owns" hint="Things owned by the organization or person.";
 
     property name="parent" hint="A parent of this person.";
 
@@ -141,7 +143,7 @@ While such policies are most typically expressed in natural language, sometimes 
 
     property name="telephone" hint="The telephone number.";
 
-    property name="vatID" hint="The Value-added Tax ID of the organization or person.";
+    property name="vatID" hint="The value-added Tax ID of the organization or person with national prefix (for example IT123456789). Can also be described as [[iso6523Code]] with proper prefix.";
 
     property name="weight" hint="The weight of the product or person.";
 

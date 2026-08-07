@@ -3,7 +3,7 @@
 // Do not hand-edit; re-run generator to update.
 // --------------------------------------------------------
 
-component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
+component extends="schema-org.types.CreativeWork" accessors="true" {
 
     property name="actor" hint="An actor (individual or a group), e.g. in TV, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.";
 
@@ -15,9 +15,13 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
 
     property name="directors" hint="A director of e.g. TV, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.";
 
+    property name="endDate" hint="The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).";
+
     property name="episode" hint="An episode of a TV, radio or game media within a series or season.";
 
     property name="episodes" hint="An episode of a TV/radio series or season.";
+
+    property name="issn" hint="The International Standard Serial Number (ISSN) that identifies this serial publication. You can repeat this property to identify different formats of, or the linking ISSN (ISSN-L) for, this serial publication.";
 
     property name="musicBy" hint="The composer of the soundtrack.";
 
@@ -30,6 +34,8 @@ component extends="schema-org.types.CreativeWorkSeries" accessors="true" {
     property name="season" hint="A season in a media series.";
 
     property name="seasons" hint="A season in a media series.";
+
+    property name="startDate" hint="The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).";
 
     property name="titleEIDR" hint="An [EIDR](https://eidr.org/) (Entertainment Identifier Registry) [[identifier]] representing at the most general/abstract level, a work of film or television.
 

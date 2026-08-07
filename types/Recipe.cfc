@@ -17,7 +17,7 @@ component extends="schema-org.types.HowTo" accessors="true" {
 
     property name="recipeCuisine" hint="The cuisine of the recipe (for example, French or Ethiopian).";
 
-    property name="recipeIngredient" hint="A single ingredient used in the recipe, e.g. sugar, flour or garlic.";
+    property name="recipeIngredient" hint="An ingredient or ordered list of ingredients and potentially quantities used in the recipe, e.g. 1 cup of sugar, flour or garlic.  The ingredients can be represented as free text or more structured values.";
 
     property name="recipeInstructions" hint="A step in making the recipe, in the form of a single item (document, video, etc.) or an ordered list with HowToStep and/or HowToSection items.";
 
