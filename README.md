@@ -1,6 +1,6 @@
 # Schema-org
 
-<img src="https://github.com/homestar9/schema-org/blob/master/schema-org.svg?raw=true" width="250" alt="Schema-Org ColdBox Module Logo" />
+<img src="https://github.com/homestar9/schema-org/blob/master/schema-org-logo.avif?raw=true" width="250" alt="Schema-Org ColdBox Module Logo" />
 
 **Schema-org** is a ColdBox module for building structured JSON-LD data using [Schema.org](https://schema.org) in a flexible, fluent, and framework-friendly way.
 

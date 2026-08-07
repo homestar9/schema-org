@@ -1,6 +1,6 @@
 component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 
-	/*********************************** LIFE CYCLE Methods ***********************************/
+	// Test lifecycle
 
 	function beforeAll(){
 		super.beforeAll();
@@ -11,7 +11,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 		super.afterAll();
 	}
 
-	/*********************************** BDD SUITES ***********************************/
+	// Integration specs
 
 	function run(){
 		describe( "MockData CFC", function(){
@@ -23,7 +23,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="root" {
 				var event 		= get( "/" );
                 var prc = event.getPrivateCollection();
 
-                // Coldbox limitation: You can't get the status code from a call to the default route. Only explicit routes.
+                // ColdBox does not expose the status code when a test calls the default route.
                 // https://community.ortussolutions.com/t/coldbox-7-optimal-way-to-get-current-http-status-code/10632/9
                 // expect( event.getStatusCode() ).toBe( 200 );
                 
